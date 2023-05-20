@@ -1,25 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import { me } from "./utils/APIutils";
+import { User } from "./types/userTypes";
+import SessionRouter from "./router/SessionRouter";
+
+const getCurrentUser = async (setCurrentUser: (currentUser: User) => void) => {
+  const currentUser = await me();
+  if (currentUser.username === "") {
+    localStorage.removeItem("token");
+  }
+  setCurrentUser(currentUser);
+};
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  const [currentUser, setCurrentUser] = useState<User>({
+    username: null,
+    url: "",
+    name: "",
+  });
+  useEffect(() => {
+    getCurrentUser(setCurrentUser);
+  }, []);
+  return currentUser.username && currentUser.username?.length > 0 ? (
+    <div>Huhu</div>
+  ) : (
+    <SessionRouter />
   );
 }
 
