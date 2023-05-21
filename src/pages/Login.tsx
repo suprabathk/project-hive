@@ -2,18 +2,27 @@ import React, { useState } from "react";
 import { ProjectHiveLogo } from "../AppIcons/appIcons";
 import { Link, navigate } from "raviger";
 import { login } from "../utils/APIutils";
+import { LoadingIndiacator } from "../components/common/LoadingIndicator";
 
 export const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
+      setLoading(true);
       const data = await login(username, password);
-      localStorage.setItem("token", data.token);
-      window.location.reload();
-      navigate("/");
+      if (!data) {
+        setError("Invalid credentials");
+        setLoading(false);
+      } else {
+        localStorage.setItem("token", data.token);
+        window.location.reload();
+        navigate("/");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -54,38 +63,50 @@ export const Login = () => {
             </Link>
           </div>
         </div>
-        <form className="flex flex-col gap-3 mt-4" onSubmit={handleSubmit}>
-          <div className="w-full">
-            <label htmlFor="username-field" className="font-semibold text-lg">
-              Username
-            </label>
-            <input
-              type="text"
-              value={username}
-              id="username-field"
-              onChange={(event) => setUsername(event.target.value)}
-              className="bg-gray-200 border border-purple-900 hover:border-purple-700 text-black focus:border-purple-700 w-full h-5 px-3 py-5 mb-2 hover:outline-none focus:outline-none focus:ring-purple-700 focus:ring-1 rounded-md"
-            />
-          </div>
-          <div className="w-full">
-            <label htmlFor="password-field" className=" font-semibold text-lg">
-              Password
-            </label>
-            <input
-              type="password"
-              value={password}
-              id="password-field"
-              onChange={(event) => setPassword(event.target.value)}
-              className="bg-gray-200 border border-purple-900 hover:border-purple-700 text-black focus:border-purple-700 w-full h-5 px-3 py-5 mb-2 hover:outline-none focus:outline-none focus:ring-purple-700 focus:ring-1 rounded-md"
-            />
-          </div>
-          <button
-            type="submit"
-            className="bg-purple-700 rounded-lg text-white font-normal px-8 py-2 mt-4 tracking-wider w-fit"
-          >
-            Sign in
-          </button>
-        </form>
+        {loading ? (
+          <LoadingIndiacator />
+        ) : (
+          <form className="flex flex-col gap-3 mt-4" onSubmit={handleSubmit}>
+            {error.length > 0 && (
+              <div className="px-2 py-1 rounded-md border-red-600 bg-red-100 text-red-600">
+                {error}
+              </div>
+            )}
+            <div className="w-full">
+              <label htmlFor="username-field" className="font-semibold text-lg">
+                Username
+              </label>
+              <input
+                type="text"
+                value={username}
+                id="username-field"
+                onChange={(event) => setUsername(event.target.value)}
+                className="bg-gray-200 border border-purple-900 hover:border-purple-700 text-black focus:border-purple-700 w-full h-5 px-3 py-5 mb-2 hover:outline-none focus:outline-none focus:ring-purple-700 focus:ring-1 rounded-md"
+              />
+            </div>
+            <div className="w-full">
+              <label
+                htmlFor="password-field"
+                className=" font-semibold text-lg"
+              >
+                Password
+              </label>
+              <input
+                type="password"
+                value={password}
+                id="password-field"
+                onChange={(event) => setPassword(event.target.value)}
+                className="bg-gray-200 border border-purple-900 hover:border-purple-700 text-black focus:border-purple-700 w-full h-5 px-3 py-5 mb-2 hover:outline-none focus:outline-none focus:ring-purple-700 focus:ring-1 rounded-md"
+              />
+            </div>
+            <button
+              type="submit"
+              className="bg-purple-700 rounded-lg text-white font-normal px-8 py-2 mt-4 tracking-wider w-fit"
+            >
+              Sign in
+            </button>
+          </form>
+        )}
         <div></div>
         <div></div>
       </div>
