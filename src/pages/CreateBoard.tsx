@@ -24,7 +24,8 @@ export default function CreateBoard() {
     setErrors(validationErrors);
     if (Object.keys(validationErrors).length === 0) {
       try {
-        const data = await createBoard(board);
+        await createBoard(board);
+        // const data = await createBoard(board);
         navigate(`/`);
       } catch (error) {
         console.log(error);

@@ -1,13 +1,20 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Board } from "../types/boardTypes";
 import { getBoards } from "../utils/APIutils";
 import Modal from "../components/common/Modal";
 import CreateBoard from "./CreateBoard";
-import { useQueryParams } from "raviger";
+import { navigate, useQueryParams } from "raviger";
 import { PlusIcon, SearchIcon } from "../AppIcons/appIcons";
+import { LoadingIndiacator } from "../components/common/LoadingIndicator";
 
-const fetchBoards = (setBoards: (boards: Board[]) => void) => {
-  getBoards().then((data) => setBoards(data.results));
+const fetchBoards = (
+  setBoards: (boards: Board[]) => void,
+  setLoading: (loading: boolean) => void
+) => {
+  getBoards().then((data) => {
+    setBoards(data.results);
+    setLoading(false);
+  });
 };
 
 export const Boards = () => {
@@ -15,7 +22,8 @@ export const Boards = () => {
   const [searchString, setSearchString] = useState("");
   const [boards, setBoards] = useState<Board[]>([]);
   const [newBoard, setNewBoard] = useState(false);
-  useEffect(() => fetchBoards(setBoards), []);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => fetchBoards(setBoards, setLoading), []);
   return (
     <div className="my-4 ml-4 mr-8 text-slate-200">
       <h3 className="font-bold font-Montserrat text-3xl">My Boards</h3>
@@ -56,28 +64,32 @@ export const Boards = () => {
           <span>Create board</span>
         </button>
       </div>
-      <div className="mt-5">
-        {boards.length > 0 ? (
-          boards
-            .filter((board) =>
-              board.title.toLowerCase().includes(search?.toLowerCase() || "")
-            )
-            .map((board) => (
-              <div
-                key={board.id}
-                className="bg-[#212128] text-gray-400 rounded-md my-2 px-4 py-2 shadow-md cursor-pointer"
-              >
-                <span className="text-xl font-Lato font-bold text-gray-200">
-                  {board.title}
-                </span>
-                <p className="font-light">{board.description}</p>
-              </div>
-            ))
-        ) : (
-          <p className="text-gray-200 mt-2">There are no boards created!</p>
-        )}
-      </div>
-
+      {loading ? (
+        <LoadingIndiacator />
+      ) : (
+        <div className="mt-5">
+          {boards.length > 0 ? (
+            boards
+              .filter((board) =>
+                board.title.toLowerCase().includes(search?.toLowerCase() || "")
+              )
+              .map((board) => (
+                <button
+                  key={board.id}
+                  onClick={() => navigate(`/boards/${board.id}`)}
+                  className="bg-[#212128] w-full text-left border border-gray-400 text-gray-400 rounded-md my-2 px-4 py-2 shadow-md cursor-pointer"
+                >
+                  <span className="text-xl font-Lato font-bold text-gray-200">
+                    {board.title}
+                  </span>
+                  <p className="font-light">{board.description}</p>
+                </button>
+              ))
+          ) : (
+            <p className="text-gray-200 mt-2">There are no boards created!</p>
+          )}
+        </div>
+      )}
       <Modal open={newBoard} closeCB={() => setNewBoard(false)}>
         <CreateBoard />
       </Modal>

@@ -49,7 +49,7 @@ export const Login = () => {
           <h4 className="font-bold text-4xl font-Montserrat">Sign in</h4>
           <div className="flex gap-1 text-lg items-center mt-2">
             <p className="font-light ">Don't have an account?</p>
-            <Link href={"/signup"} className="font-normal text-blue-700">
+            <Link href={"/signup"} className="font-normal text-purple-700">
               Sign up
             </Link>
           </div>
@@ -64,7 +64,7 @@ export const Login = () => {
               value={username}
               id="username-field"
               onChange={(event) => setUsername(event.target.value)}
-              className="bg-gray-200 border border-blue-900 hover:border-blue-700 text-black focus:border-blue-700 w-full h-5 px-3 py-5 mb-2 hover:outline-none focus:outline-none focus:ring-blue-700 focus:ring-1 rounded-md"
+              className="bg-gray-200 border border-purple-900 hover:border-purple-700 text-black focus:border-purple-700 w-full h-5 px-3 py-5 mb-2 hover:outline-none focus:outline-none focus:ring-purple-700 focus:ring-1 rounded-md"
             />
           </div>
           <div className="w-full">
@@ -76,12 +76,12 @@ export const Login = () => {
               value={password}
               id="password-field"
               onChange={(event) => setPassword(event.target.value)}
-              className="bg-gray-200 border border-blue-900 hover:border-blue-700 text-black focus:border-blue-700 w-full h-5 px-3 py-5 mb-2 hover:outline-none focus:outline-none focus:ring-blue-700 focus:ring-1 rounded-md"
+              className="bg-gray-200 border border-purple-900 hover:border-purple-700 text-black focus:border-purple-700 w-full h-5 px-3 py-5 mb-2 hover:outline-none focus:outline-none focus:ring-purple-700 focus:ring-1 rounded-md"
             />
           </div>
           <button
             type="submit"
-            className="bg-[#221ea8] rounded-lg text-white font-normal px-8 py-2 mt-4 tracking-wider w-fit"
+            className="bg-purple-700 rounded-lg text-white font-normal px-8 py-2 mt-4 tracking-wider w-fit"
           >
             Sign in
           </button>

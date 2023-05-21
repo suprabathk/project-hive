@@ -22,12 +22,16 @@ function App() {
   useEffect(() => {
     getCurrentUser(setCurrentUser);
   }, []);
-  return currentUser.username && currentUser.username?.length > 0 ? (
-    <AppContainer currentUser={currentUser}>
-      <AppRouter />
-    </AppContainer>
-  ) : (
-    <SessionRouter />
+  return (
+    <div className="selection:text-white selection:bg-purple-400">
+      {currentUser.username && currentUser.username?.length > 0 ? (
+        <AppContainer currentUser={currentUser}>
+          <AppRouter />
+        </AppContainer>
+      ) : (
+        <SessionRouter />
+      )}
+    </div>
   );
 }
 

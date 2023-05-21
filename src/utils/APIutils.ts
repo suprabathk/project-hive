@@ -59,6 +59,10 @@ export const getBoards = () => {
   return request("boards/", "GET");
 };
 
+export const getBoard = (id: number) => {
+  return request(`boards/${id}/`, "GET");
+};
+
 export const createBoard = (board: Board) => {
   return request("boards/", "POST", board);
 };
