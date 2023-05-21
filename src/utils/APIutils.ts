@@ -1,4 +1,4 @@
-import { Board } from "../types/boardTypes";
+import { Board, Stage, Task } from "../types/boardTypes";
 
 const API_BASE_URL = "https://reactforall.onrender.com/api/";
 
@@ -65,4 +65,20 @@ export const getBoard = (id: number) => {
 
 export const createBoard = (board: Board) => {
   return request("boards/", "POST", board);
+};
+
+export const getStages = () => {
+  return request("status/", "GET");
+};
+
+export const createStage = (stage: Stage) => {
+  return request("status/", "POST", stage);
+};
+
+export const createTask = (boardID: number, task: Task) => {
+  return request(`boards/${boardID}/tasks/`, "POST", task);
+};
+
+export const getTasks = (boardID: number) => {
+  return request(`boards/${boardID}/tasks/`, "GET");
 };
