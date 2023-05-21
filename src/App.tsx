@@ -7,7 +7,7 @@ import { AppContainer } from "./components/AppContainer";
 
 const getCurrentUser = async (setCurrentUser: (currentUser: User) => void) => {
   const currentUser = await me();
-  if (currentUser.username === "") {
+  if (!currentUser || currentUser.username === "") {
     localStorage.removeItem("token");
   }
   setCurrentUser(currentUser);
