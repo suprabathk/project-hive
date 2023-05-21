@@ -22,9 +22,9 @@ export const Login = () => {
   return (
     <div className="flex min-h-screen bg-[#ebebf4]">
       <div className="bg-[#2721cf] w-[35%] rounded-xl flex flex-col py-8 px-4 text-white m-3 justify-between">
-        <div className="flex gap-2">
-          <ProjectHiveLogo className="w-8 h-8" />
-          <h2 className="font-semibold">HIVE</h2>
+        <div className="flex gap-2 items-center">
+          <ProjectHiveLogo className="w-8 h-8 stroke-white" />
+          <h2 className="font-semibold tracking-widest">HIVE</h2>
         </div>
         <div>
           <h4 className="font-bold text-4xl mb-2">

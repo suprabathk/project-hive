@@ -10,7 +10,7 @@ export const AppContainer = ({
   children: ReactNode;
 }) => {
   return (
-    <div className="flex bg-gray-100 min-h-screen">
+    <div className="flex bg-[#ebebf4] min-h-screen">
       <SideBar />
       <div className="w-full">{children}</div>
     </div>
