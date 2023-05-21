@@ -1,5 +1,5 @@
 import { useRoutes } from "raviger";
-import { Login } from "../components/Login";
+import { Login } from "../pages/Login";
 
 export default function SessionRouter() {
   const routes = {
