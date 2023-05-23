@@ -30,7 +30,7 @@ export const Login = () => {
 
   return (
     <div className="flex min-h-screen bg-black text-gray-200 font-Lato">
-      <div className="bg-[#141418] w-[35%] rounded-xl flex flex-col py-8 px-4 m-3 justify-between">
+      <div className="hidden md:flex bg-[#141418] w-[35%] rounded-xl flex-col py-8 px-4 m-3 justify-between">
         <div className="flex gap-2 items-center">
           <ProjectHiveLogo className="w-8 h-8 stroke-white" />
           <h2 className="font-semibold tracking-widest">HIVE</h2>

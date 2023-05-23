@@ -67,12 +67,24 @@ export const createBoard = (board: Board) => {
   return request("boards/", "POST", board);
 };
 
+export const deleteBoard = (boardID: number) => {
+  return request(`boards/${boardID}/`, "DELETE");
+};
+
+export const updateBoard = (boardID: number, board: Partial<Board>) => {
+  return request(`boards/${boardID}/`, "PATCH", board);
+};
+
 export const getStages = () => {
   return request("status/", "GET");
 };
 
 export const createStage = (stage: Stage) => {
   return request("status/", "POST", stage);
+};
+
+export const deleteStage = (stageID: number) => {
+  return request(`status/${stageID}/`, "DELETE");
 };
 
 export const createTask = (boardID: number, task: Task) => {
