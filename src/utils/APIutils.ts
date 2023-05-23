@@ -98,3 +98,9 @@ export const createTask = (boardID: number, task: Task) => {
 export const getTasks = (boardID: number) => {
   return request(`boards/${boardID}/tasks/`, "GET");
 };
+
+export const moveTask = (taskID: number, boardID: number, statusID: number) => {
+  return request(`boards/${boardID}/tasks/${taskID}/`, "PATCH", {
+    status: statusID,
+  });
+};

@@ -6,6 +6,7 @@ import {
   getBoard,
   getStages,
   getTasks,
+  moveTask,
 } from "../utils/APIutils";
 import { LoadingIndiacator } from "../components/common/LoadingIndicator";
 import { DeleteIcon, EditIcon, PlusIcon } from "../AppIcons/appIcons";
@@ -54,6 +55,7 @@ export const BoardPage = ({ id }: { id: number }) => {
 
   const addTaskToGlobal = (task: Task) => {
     setTasks((tasks) => [...tasks, task]);
+    setNewTask(false);
   };
 
   const deleteCurrentBoard = async () => {
@@ -128,7 +130,33 @@ export const BoardPage = ({ id }: { id: number }) => {
           <span>Add new stage</span>
         </button>
       </div>
-      <DragDropContext onDragEnd={() => {}}>
+      <DragDropContext
+        onDragEnd={(result) => {
+          const { destination, source, draggableId } = result;
+          if (!destination) return;
+          if (destination.droppableId === source.droppableId) return;
+          moveTask(
+            Number.parseInt(draggableId),
+            id,
+            Number.parseInt(destination.droppableId)
+          );
+          setTasks((tasks) =>
+            tasks.map((task) => {
+              if (task.id === Number.parseInt(draggableId)) {
+                return {
+                  ...task,
+                  status: Number.parseInt(destination.droppableId),
+                  status_object: {
+                    id: Number.parseInt(destination.droppableId),
+                  },
+                };
+              } else {
+                return task;
+              }
+            })
+          );
+        }}
+      >
         {stages.length > 0 ? (
           <div className="flex gap-2">
             {stages.map((stage) => (

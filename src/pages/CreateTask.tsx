@@ -64,7 +64,7 @@ export default function CreateTask({
               id="title"
               value={task.title}
               onChange={handleChange}
-              className="rounded-none border block flex-1 min-w-0 w-full text-sm p-2.5 rounded-r-md bg-[#141418] border-gray-400 placeholder-gray-200 text-gray-200 focus:ring-0"
+              className="rounded-none outline-none border block flex-1 min-w-0 w-full text-sm p-2.5 rounded-r-md bg-[#141418] border-gray-400 placeholder-gray-200 text-gray-200 focus:ring-0"
             />
           </div>
           {errors.title && <p className="text-red-500">{errors.title}</p>}
@@ -79,7 +79,7 @@ export default function CreateTask({
               id="description"
               value={task.description}
               onChange={handleChange}
-              className="rounded-none border block flex-1 min-w-0 w-full text-sm p-2.5 rounded-b-md bg-[#141418] border-gray-400 placeholder-gray-400 text-gray-200 focus:ring-0"
+              className="rounded-none outline-none border block flex-1 min-w-0 w-full text-sm p-2.5 rounded-b-md bg-[#141418] border-gray-400 placeholder-gray-400 text-gray-200 focus:ring-0"
             />
           </div>
           {errors.description && (

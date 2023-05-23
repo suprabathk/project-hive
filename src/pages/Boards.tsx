@@ -42,7 +42,7 @@ export const Boards = () => {
                 value={searchString}
                 name="search"
                 onChange={(event) => setSearchString(event.target.value)}
-                className="border block flex-1 min-w-0 w-full text-sm p-1.5 bg-[#141418] rounded-l-md border-gray-400 placeholder-gray-400 text-gray-400 focus:ring-transparent"
+                className="border outline-none block flex-1 min-w-0 w-full text-sm p-1.5 bg-[#141418] rounded-l-md border-gray-400 placeholder-gray-400 text-gray-400 focus:ring-transparent"
                 placeholder="Search for board"
               />
               <button

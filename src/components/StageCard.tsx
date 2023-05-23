@@ -49,11 +49,7 @@ export const StageCard = ({
       <Droppable droppableId={`${stage.id}`}>
         {(provided) => {
           return (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-              className=""
-            >
+            <div {...provided.droppableProps} ref={provided.innerRef}>
               <div>
                 {tasks.map((task, index) => (
                   <TaskCard key={task.id} task={task} index={index} />
