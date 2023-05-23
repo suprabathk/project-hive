@@ -16,6 +16,7 @@ import { StageCard } from "../components/StageCard";
 import CreateTask from "./CreateTask";
 import { navigate } from "raviger";
 import EditBoard from "./EditBoard";
+import EditStage from "./EditStage";
 
 const fetchBoardData = (
   id: number,
@@ -39,10 +40,16 @@ export const BoardPage = ({ id }: { id: number }) => {
   const [newTask, setNewTask] = useState(false);
   const [stageID, setStageID] = useState(0);
   const [editBoard, setEditBoard] = useState(false);
+  const [editStage, setEditStage] = useState(false);
 
   const showAddTaskModal = (stageID: number) => {
     setStageID(stageID);
     setNewTask(true);
+  };
+
+  const showEditTaskModal = (stageID: number) => {
+    setStageID(stageID);
+    setEditStage(true);
   };
 
   const addTaskToGlobal = (task: Task) => {
@@ -68,6 +75,19 @@ export const BoardPage = ({ id }: { id: number }) => {
       };
     });
     setEditBoard(false);
+  };
+
+  const updateStageCB = (stage: Stage) => {
+    setStages((stages) => {
+      return stages.map((prevStage) => {
+        if (prevStage.id === stageID) {
+          return stage;
+        } else {
+          return prevStage;
+        }
+      });
+    });
+    setEditStage(false);
   };
 
   useEffect(() => fetchBoardData(id, setBoard, setStages, setTasks), [id]);
@@ -119,6 +139,7 @@ export const BoardPage = ({ id }: { id: number }) => {
                   (task) => task.status_object?.id === stage.id
                 )}
                 addTaskToStage={showAddTaskModal}
+                editStage={showEditTaskModal}
                 deleteStage={deleteCurrentStage}
               />
             ))}
@@ -139,6 +160,12 @@ export const BoardPage = ({ id }: { id: number }) => {
       </Modal>
       <Modal open={editBoard} closeCB={() => setEditBoard(false)}>
         <EditBoard prevBoard={board} updateBoardCB={updateBoardCB} />
+      </Modal>
+      <Modal open={editStage} closeCB={() => setEditStage(false)}>
+        <EditStage
+          prevStage={stages.filter((stage) => stage.id === stageID)[0]}
+          updateStageCB={updateStageCB}
+        />
       </Modal>
     </div>
   ) : (

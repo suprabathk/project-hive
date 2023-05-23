@@ -2,33 +2,42 @@ import React from "react";
 import { Stage, Task } from "../types/boardTypes";
 import { Droppable } from "react-beautiful-dnd";
 import { TaskCard } from "./TaskCard";
-import { DeleteIcon, PlusIcon } from "../AppIcons/appIcons";
+import { DeleteIcon, EditIcon, PlusIcon } from "../AppIcons/appIcons";
 
 export const StageCard = ({
   stage,
   tasks,
   addTaskToStage,
+  editStage,
   deleteStage,
 }: {
   stage: Stage;
   tasks: Task[];
   addTaskToStage: (stageID: number) => void;
+  editStage: (stageID: number) => void;
   deleteStage: (stageID: number) => void;
 }) => {
   return (
     <div className="flex flex-col min-w-[30%] gap-2 bg-black border border-gray-400 rounded-lg py-4 px-2">
-      <div className="flex justify-between items-start">
+      <div className="flex justify-between items-center">
         <div>
           <h3 className="text-2xl font-bold">{stage.title}</h3>
           <p className="font-light">{stage.description}</p>
         </div>
-        <button
-          onClick={() => stage.id && deleteStage(stage.id)}
-          className="transition-all flex gap-1 items-center text-red-300 hover:text-red-500"
-        >
-          <DeleteIcon className="w-4 h-4" />
-          <span>Delete stage</span>
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={() => stage.id && editStage(stage.id)}
+            className="transition-all text-blue-300 hover:text-blue-500"
+          >
+            <EditIcon className="w-5 h-5" />
+          </button>
+          <button
+            onClick={() => stage.id && deleteStage(stage.id)}
+            className="transition-all text-red-300 hover:text-red-500"
+          >
+            <DeleteIcon className="w-5 h-5" />
+          </button>
+        </div>
       </div>
       <button
         onClick={() => stage.id && addTaskToStage(stage.id)}
