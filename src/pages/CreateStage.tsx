@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { Errors, validateStage, Stage } from "../types/boardTypes";
 import { createStage } from "../utils/APIutils";
-import { navigate } from "raviger";
 
-export default function CreateStage() {
+export default function CreateStage({
+  addStage,
+}: {
+  addStage: (stage: Stage) => void;
+}) {
   const [stage, setStage] = useState<Stage>({
     title: "",
     description: "",
@@ -24,8 +27,9 @@ export default function CreateStage() {
     if (Object.keys(validationErrors).length === 0) {
       try {
         await createStage(stage);
+        addStage(stage);
         // const data = await createBoard(board);
-        navigate(`/`);
+        // navigate(`/`);
       } catch (error) {
         console.log(error);
       }

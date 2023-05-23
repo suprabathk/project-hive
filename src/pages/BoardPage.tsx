@@ -92,6 +92,11 @@ export const BoardPage = ({ id }: { id: number }) => {
     setEditStage(false);
   };
 
+  const addStageCB = (stage: Stage) => {
+    setStages((stages) => [...stages, stage]);
+    setNewStage(false);
+  };
+
   useEffect(() => fetchBoardData(id, setBoard, setStages, setTasks), [id]);
 
   return board.id ? (
@@ -181,7 +186,7 @@ export const BoardPage = ({ id }: { id: number }) => {
       </DragDropContext>
 
       <Modal open={newStage} closeCB={() => setNewStage(false)}>
-        <CreateStage />
+        <CreateStage addStage={addStageCB} />
       </Modal>
       <Modal open={newTask} closeCB={() => setNewTask(false)}>
         <CreateTask boardID={id} statusID={stageID} addTask={addTaskToGlobal} />
