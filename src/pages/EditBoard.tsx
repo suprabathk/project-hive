@@ -3,16 +3,13 @@ import { Errors, Board, validateBoard } from "../types/boardTypes";
 import { updateBoard } from "../utils/APIutils";
 
 export default function EditBoard({
-  boardID,
+  prevBoard,
   updateBoardCB,
 }: {
-  boardID: number;
+  prevBoard: Board;
   updateBoardCB: (board: Board) => void;
 }) {
-  const [board, setBoard] = useState<Board>({
-    title: "",
-    description: "",
-  });
+  const [board, setBoard] = useState<Board>(prevBoard);
   const [errors, setErrors] = useState<Errors<Board>>({});
 
   const handleChange = (
@@ -28,10 +25,9 @@ export default function EditBoard({
     setErrors(validationErrors);
     if (Object.keys(validationErrors).length === 0) {
       try {
-        await updateBoard(boardID, board);
+        board.id && (await updateBoard(board.id, board));
         updateBoardCB(board);
         // const data = await createBoard(board);
-        // navigate(`/`);
       } catch (error) {
         console.log(error);
       }

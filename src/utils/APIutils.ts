@@ -87,6 +87,10 @@ export const deleteStage = (stageID: number) => {
   return request(`status/${stageID}/`, "DELETE");
 };
 
+export const updateStage = (stageID: number, stage: Stage) => {
+  return request(`status/${stageID}/`, "PATCH", stage);
+};
+
 export const createTask = (boardID: number, task: Task) => {
   return request(`boards/${boardID}/tasks/`, "POST", task);
 };

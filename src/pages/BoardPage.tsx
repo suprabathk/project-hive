@@ -138,7 +138,7 @@ export const BoardPage = ({ id }: { id: number }) => {
         <CreateTask boardID={id} statusID={stageID} addTask={addTaskToGlobal} />
       </Modal>
       <Modal open={editBoard} closeCB={() => setEditBoard(false)}>
-        <EditBoard boardID={id} updateBoardCB={updateBoardCB} />
+        <EditBoard prevBoard={board} updateBoardCB={updateBoardCB} />
       </Modal>
     </div>
   ) : (
