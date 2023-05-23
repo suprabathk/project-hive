@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Board, Stage, Task } from "../types/boardTypes";
 import {
   deleteBoard,
@@ -6,7 +6,6 @@ import {
   getBoard,
   getStages,
   getTasks,
-  updateBoard,
 } from "../utils/APIutils";
 import { LoadingIndiacator } from "../components/common/LoadingIndicator";
 import { DeleteIcon, EditIcon, PlusIcon } from "../AppIcons/appIcons";
@@ -16,6 +15,7 @@ import { DragDropContext } from "react-beautiful-dnd";
 import { StageCard } from "../components/StageCard";
 import CreateTask from "./CreateTask";
 import { navigate } from "raviger";
+import EditBoard from "./EditBoard";
 
 const fetchBoardData = (
   id: number,
@@ -39,14 +39,6 @@ export const BoardPage = ({ id }: { id: number }) => {
   const [newTask, setNewTask] = useState(false);
   const [stageID, setStageID] = useState(0);
   const [editBoard, setEditBoard] = useState(false);
-  const boardTitleRef = useRef<HTMLInputElement>(null);
-  const [boardTitle, setBoardTitle] = useState(board.title);
-  const [boardDescription, setBoardDescription] = useState(board.description);
-
-  useEffect(() => {
-    setBoardTitle(board.title);
-    setBoardDescription(board.description);
-  }, [board.description, board.title]);
 
   const showAddTaskModal = (stageID: number) => {
     setStageID(stageID);
@@ -67,54 +59,33 @@ export const BoardPage = ({ id }: { id: number }) => {
     setStages((stages) => stages.filter((stage) => stage.id !== stageID));
   };
 
-  const updateBoardDetails = (boardID: number) => {
-    if (boardTitle === "" || boardDescription === "") return;
-    updateBoard(boardID, {
-      description: boardDescription,
-      title: boardTitle,
+  const updateBoardCB = (board: Board) => {
+    setBoard((originalBoard) => {
+      return {
+        ...originalBoard,
+        title: board.title,
+        description: board.description,
+      };
     });
-    setBoard({ ...board, description: boardDescription, title: boardTitle });
     setEditBoard(false);
   };
 
   useEffect(() => fetchBoardData(id, setBoard, setStages, setTasks), [id]);
-  useEffect(() => {
-    if (editBoard) boardTitleRef.current?.focus();
-  }, [editBoard]);
 
   return board.id ? (
     <div className="my-4 ml-4 mr-8  text-slate-200">
       <div className="flex justify-between">
         <div className="flex flex-col">
-          <input
-            className={`font-bold px-2 font-Montserrat text-3xl bg-transparent outline-none ${
-              editBoard && "border rounded-md rounded-b-none "
-            }`}
-            ref={boardTitleRef}
-            value={editBoard ? boardTitle : board.title}
-            onChange={(event) => setBoardTitle(event.target.value)}
-            disabled={!editBoard}
-          />
-          <input
-            className={`font-light px-2 bg-transparent outline-none ${
-              editBoard && "border rounded-md rounded-t-none border-t-0"
-            }`}
-            value={editBoard ? boardDescription : board.description}
-            onChange={(event) => setBoardDescription(event.target.value)}
-            disabled={!editBoard}
-          />
+          <h2 className="font-bold font-Montserrat text-3xl">{board.title}</h2>
+          <p className="font-light">{board.description}</p>
         </div>
         <div>
           <button
-            onClick={() =>
-              editBoard
-                ? board.id && updateBoardDetails(board.id)
-                : setEditBoard(true)
-            }
+            onClick={() => setEditBoard(true)}
             className="transition-all flex gap-1 items-center text-blue-300 hover:text-blue-500"
           >
             <EditIcon className="w-4 h-4" />
-            <span>{editBoard ? "Save board" : "Edit board"}</span>
+            <span>Edit board</span>
           </button>
           <button
             onClick={deleteCurrentBoard}
@@ -165,6 +136,9 @@ export const BoardPage = ({ id }: { id: number }) => {
       </Modal>
       <Modal open={newTask} closeCB={() => setNewTask(false)}>
         <CreateTask boardID={id} statusID={stageID} addTask={addTaskToGlobal} />
+      </Modal>
+      <Modal open={editBoard} closeCB={() => setEditBoard(false)}>
+        <EditBoard boardID={id} updateBoardCB={updateBoardCB} />
       </Modal>
     </div>
   ) : (
