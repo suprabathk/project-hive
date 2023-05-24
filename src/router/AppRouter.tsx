@@ -8,7 +8,7 @@ import { User } from "../types/userTypes";
 export default function AppRouter({ currentUser }: { currentUser: User }) {
   const routes = {
     "/": () => <Redirect to="/boards" />,
-    "/login": () => <Redirect to="/" />,
+    "/signin": () => <Redirect to="/" />,
     "/boards": () => <Boards currentUser={currentUser} />,
     "/boards/:id": ({ id }: { id: string }) => <BoardPage id={Number(id)} />,
     "/todos": () => <ToDo />,

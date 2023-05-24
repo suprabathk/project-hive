@@ -1,10 +1,12 @@
 import { useRoutes } from "raviger";
-import { Login } from "../pages/Login";
+import { SignIn } from "../pages/SignIn";
+import { SignUp } from "../pages/SignUp";
 
 export default function SessionRouter() {
   const routes = {
-    "/login": () => <Login />,
+    "/signin": () => <SignIn />,
+    "/signup": () => <SignUp />,
   };
-  let routeResult = useRoutes(routes) || <Login />;
+  let routeResult = useRoutes(routes) || <SignIn />;
   return routeResult;
 }
