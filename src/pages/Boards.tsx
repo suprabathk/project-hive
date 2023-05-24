@@ -5,6 +5,7 @@ import Modal from "../components/common/Modal";
 import CreateBoard from "./CreateBoard";
 import { navigate, useQueryParams } from "raviger";
 import {
+  CalenderIcon,
   LeftIcon,
   PlusIcon,
   RightIcon,
@@ -15,6 +16,7 @@ import {
   FirstBoardIllustration,
   NoSearchResultsIllustration,
 } from "../AppIcons/illustrations";
+import { User } from "../types/userTypes";
 
 const fetchBoards = (
   setBoards: (boards: Board[]) => void,
@@ -30,7 +32,7 @@ const fetchBoards = (
   });
 };
 
-export const Boards = () => {
+export const Boards = ({ currentUser }: { currentUser: User }) => {
   const [{ search }, setQuery] = useQueryParams();
   const [searchString, setSearchString] = useState("");
   const [boards, setBoards] = useState<Board[]>([]);
@@ -40,14 +42,38 @@ export const Boards = () => {
   const [count, setCount] = useState(0);
   const limit = 4;
 
+  const today = new Date();
+  const weekday = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+
   useEffect(
     () => fetchBoards(setBoards, setLoading, setCount, offset, limit),
     [offset]
   );
   return (
     <div className="my-4 ml-4 mr-8 text-slate-200">
-      <h3 className="font-bold font-Montserrat text-3xl">My Boards</h3>
-      <div className="flex justify-between items-center mt-4">
+      <div className="my-4 mr-8  text-slate-200">
+        <div className="text-slate-400 flex gap-1 items-center">
+          <CalenderIcon className="w-4 h-4" />
+          <p>
+            {weekday[today.getUTCDay()]},{" "}
+            {today.toLocaleDateString("default", { month: "long" })}{" "}
+            {today.getDate()}
+          </p>
+        </div>
+        <h3 className="font-Montserrat text-4xl">
+          Hello,{" "}
+          {currentUser.name === "" ? currentUser.username : currentUser.name}
+        </h3>
+      </div>
+      <div className="flex justify-between items-center mt-6">
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -132,7 +158,7 @@ export const Boards = () => {
             )}
           </div>
           {(!search || search === "") && boards.length > 0 && (
-            <div className="w-full pt-4">
+            <div className="w-[82%] fixed pt-4 bottom-4">
               <div className="flex">
                 <button
                   onClick={() => {

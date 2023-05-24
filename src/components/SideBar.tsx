@@ -19,7 +19,6 @@ export const SideBar = () => {
       </div>
       <div className="flex flex-col gap-3">
         {[
-          { page: "Home", icon: <HomeIcon className={"w-4 h-4"} />, url: "/" },
           {
             page: "Boards",
             icon: <BoardIcon className={"w-4 h-4"} />,

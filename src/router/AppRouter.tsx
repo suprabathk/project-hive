@@ -1,5 +1,4 @@
 import { Redirect, useRoutes } from "raviger";
-import { Home } from "../pages/Home";
 import Page404 from "../pages/Page404";
 import { Boards } from "../pages/Boards";
 import { ToDo } from "../pages/ToDo";
@@ -8,9 +7,9 @@ import { User } from "../types/userTypes";
 
 export default function AppRouter({ currentUser }: { currentUser: User }) {
   const routes = {
-    "/": () => <Home currentUser={currentUser} />,
+    "/": () => <Redirect to="/boards" />,
     "/login": () => <Redirect to="/" />,
-    "/boards": () => <Boards />,
+    "/boards": () => <Boards currentUser={currentUser} />,
     "/boards/:id": ({ id }: { id: string }) => <BoardPage id={Number(id)} />,
     "/todos": () => <ToDo />,
   };
