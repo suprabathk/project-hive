@@ -135,7 +135,32 @@ export default function CreateTask({
                 <option value="Low">Low</option>
               </select>
             </div>
-            {errors.title && <p className="text-red-500">{errors.title}</p>}
+          </div>
+          <div className="w-full mb-6">
+            <div className="flex mt-2">
+              <span className="inline-flex items-center px-3 text-md font-semibold border border-r-0 rounded-l-md bg-[#212128] text-gray-200 border-gray-400">
+                Due date
+              </span>
+              <input
+                type="date"
+                name="date"
+                id="date"
+                required
+                value={task.description.dueDate}
+                onChange={(event) =>
+                  setTask((task) => {
+                    return {
+                      ...task,
+                      description: {
+                        ...task.description,
+                        dueDate: event.target.value,
+                      },
+                    };
+                  })
+                }
+                className="rounded-none outline-none border block flex-1 min-w-0 w-full text-sm p-2.5 rounded-r-md bg-[#141418] border-gray-400 placeholder-gray-200 text-gray-200 focus:ring-0"
+              />
+            </div>
           </div>
           <button
             type="submit"
