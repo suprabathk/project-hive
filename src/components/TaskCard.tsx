@@ -10,10 +10,10 @@ export const TaskCard = ({ task, index }: { task: Task; index: number }) => {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
-          className="bg-[#212128] rounded-md flex flex-col px-2 py-1 my-2"
+          className="bg-[#212128] rounded-md flex flex-col px-2 py-1 my-2 w-full text-left"
         >
           <h4 className="font-semibold text-2xl">{task.title}</h4>
-          <p className="font-light">{task.description}</p>
+          <p className="font-light">{task.description.description}</p>
         </div>
       )}
     </Draggable>

@@ -27,7 +27,10 @@ const fetchBoardData = (
 ) => {
   getStages().then((data) => setStages(data.results));
   getBoard(id).then((data) => setBoard(data));
-  getTasks(id).then((data) => setTasks(data.results));
+  getTasks(id).then((data) => {
+    setTasks(data);
+    console.log(data);
+  });
 };
 
 export const BoardPage = ({ id }: { id: number }) => {

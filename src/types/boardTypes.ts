@@ -13,6 +13,21 @@ export type Stage = {
 export type Task = {
   id?: number;
   title: string;
+  description: {
+    description: string;
+    priority: "High" | "Medium" | "Low";
+    dueDate: string;
+  };
+  status: number;
+  status_object?: {
+    id: number;
+  };
+  board?: number;
+};
+
+export type unparsedTask = {
+  id?: number;
+  title: string;
   description: string;
   status: number;
   status_object?: {
@@ -59,7 +74,7 @@ export const validateTask = (task: Task) => {
   if (task.title.length > 100) {
     errors.title = "Title must be less than 100 characters";
   }
-  if (task.description.length < 1) {
+  if (task.description.description && task.description.description.length < 1) {
     errors.description = "Description is required";
   }
   return errors;

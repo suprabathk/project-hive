@@ -14,7 +14,11 @@ export default function CreateTask({
 }) {
   const [task, setTask] = useState<Task>({
     title: "",
-    description: "",
+    description: {
+      priority: "Low",
+      description: "",
+      dueDate: "",
+    },
     status: statusID,
     status_object: {
       id: statusID,
@@ -23,13 +27,6 @@ export default function CreateTask({
   const [errors, setErrors] = useState<Errors<Task>>({});
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = event.target;
-    setTask({ ...task, [name]: value });
-  };
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const validationErrors = validateTask(task);
@@ -37,13 +34,10 @@ export default function CreateTask({
     if (Object.keys(validationErrors).length === 0) {
       try {
         setLoading(true);
-        const { title, description, id, status_object } = await createTask(
-          boardID,
-          task
-        );
+        const { title, id, status_object } = await createTask(boardID, task);
         addTask({
           title: title,
-          description: description,
+          description: task.description,
           id: id,
           status: status_object.id,
           status_object: {
@@ -75,7 +69,14 @@ export default function CreateTask({
                 name="title"
                 id="title"
                 value={task.title}
-                onChange={handleChange}
+                onChange={(event) =>
+                  setTask((task) => {
+                    return {
+                      ...task,
+                      title: event.target.value,
+                    };
+                  })
+                }
                 className="rounded-none outline-none border block flex-1 min-w-0 w-full text-sm p-2.5 rounded-r-md bg-[#141418] border-gray-400 placeholder-gray-200 text-gray-200 focus:ring-0"
               />
             </div>
@@ -89,14 +90,52 @@ export default function CreateTask({
               <textarea
                 name="description"
                 id="description"
-                value={task.description}
-                onChange={handleChange}
+                value={task.description.description}
+                onChange={(event) =>
+                  setTask((task) => {
+                    return {
+                      ...task,
+                      description: {
+                        ...task.description,
+                        description: event.target.value,
+                      },
+                    };
+                  })
+                }
                 className="rounded-none outline-none border block flex-1 min-w-0 w-full text-sm p-2.5 rounded-b-md bg-[#141418] border-gray-400 placeholder-gray-400 text-gray-200 focus:ring-0"
               />
             </div>
             {errors.description && (
               <p className="text-red-500">{errors.description}</p>
             )}
+          </div>
+          <div className="w-full mb-6">
+            <div className="flex mt-2">
+              <span className="inline-flex items-center px-3 text-md font-semibold border border-r-0 rounded-l-md bg-[#212128] text-gray-200 border-gray-400">
+                Priority
+              </span>
+              <select
+                name="title"
+                id="title"
+                value={task.description.priority}
+                onChange={(event) =>
+                  setTask({
+                    ...task,
+                    description: {
+                      ...task.description,
+                      priority: event.target
+                        .value as Task["description"]["priority"],
+                    },
+                  })
+                }
+                className="rounded-none outline-none border block flex-1 min-w-0 w-full text-sm p-2.5 rounded-r-md bg-[#141418] border-gray-400 placeholder-gray-200 text-gray-200 focus:ring-0"
+              >
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+              </select>
+            </div>
+            {errors.title && <p className="text-red-500">{errors.title}</p>}
           </div>
           <button
             type="submit"

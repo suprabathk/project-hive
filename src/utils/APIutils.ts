@@ -1,4 +1,4 @@
-import { Board, Stage, Task } from "../types/boardTypes";
+import { Board, Stage, Task, unparsedTask } from "../types/boardTypes";
 
 const API_BASE_URL = "https://reactforall.onrender.com/api/";
 
@@ -92,11 +92,24 @@ export const updateStage = (stage: Stage) => {
 };
 
 export const createTask = (boardID: number, task: Task) => {
-  return request(`boards/${boardID}/tasks/`, "POST", task);
+  const stringifiedTask = {
+    ...task,
+    description: JSON.stringify(task.description),
+  };
+  return request(`boards/${boardID}/tasks/`, "POST", stringifiedTask);
 };
 
-export const getTasks = (boardID: number) => {
-  return request(`boards/${boardID}/tasks/`, "GET");
+export const getTasks = async (boardID: number) => {
+  const { results }: { results: unparsedTask[] } = await request(
+    `boards/${boardID}/tasks/`,
+    "GET"
+  );
+  return results.map((task) => {
+    return {
+      ...task,
+      description: JSON.parse(task.description),
+    };
+  });
 };
 
 export const moveTask = (taskID: number, boardID: number, statusID: number) => {
