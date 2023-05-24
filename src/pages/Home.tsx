@@ -62,7 +62,7 @@ export const Home = ({ currentUser }: { currentUser: User }) => {
       ) : (
         <div>
           <div className="mt-10">
-            <h4 className="text-3xl font-Montserrat mb-1">Board details</h4>
+            <h4 className="text-2xl font-Montserrat mb-1">Board details</h4>
             <div className="flex gap-4 flex-col sm:flex-row ">
               <div className="text-2xl border border-gray-400 bg-[#212128] rounded-md px-4 py-2 w-full">
                 <p>Tasks due today</p>

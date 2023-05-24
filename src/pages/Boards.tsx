@@ -11,6 +11,10 @@ import {
   SearchIcon,
 } from "../AppIcons/appIcons";
 import { LoadingIndiacator } from "../components/common/LoadingIndicator";
+import {
+  FirstBoardIllustration,
+  NoSearchResultsIllustration,
+} from "../AppIcons/illustrations";
 
 const fetchBoards = (
   setBoards: (boards: Board[]) => void,
@@ -34,7 +38,7 @@ export const Boards = () => {
   const [loading, setLoading] = useState(true);
   const [offset, setOffset] = useState(0);
   const [count, setCount] = useState(0);
-  const limit = 2;
+  const limit = 4;
 
   useEffect(
     () => fetchBoards(setBoards, setLoading, setCount, offset, limit),
@@ -86,63 +90,84 @@ export const Boards = () => {
         <div className="flex flex-col gap-2">
           <div className="mt-5">
             {boards.length > 0 ? (
-              boards
-                .filter((board) =>
-                  board.title
-                    .toLowerCase()
-                    .includes(search?.toLowerCase() || "")
-                )
-                .map((board) => (
-                  <button
-                    key={board.id}
-                    onClick={() => navigate(`/boards/${board.id}`)}
-                    className="bg-[#212128] w-full text-left border border-gray-400 text-gray-400 rounded-md my-2 px-4 py-2 shadow-md cursor-pointer"
-                  >
-                    <span className="text-xl font-Lato font-bold text-gray-200">
-                      {board.title}
-                    </span>
-                    <p className="font-light">{board.description}</p>
-                  </button>
-                ))
+              boards.filter((board) =>
+                board.title.toLowerCase().includes(search?.toLowerCase() || "")
+              ).length > 0 ? (
+                boards
+                  .filter((board) =>
+                    board.title
+                      .toLowerCase()
+                      .includes(search?.toLowerCase() || "")
+                  )
+                  .map((board) => (
+                    <button
+                      key={board.id}
+                      onClick={() => navigate(`/boards/${board.id}`)}
+                      className="bg-[#212128] w-full text-left border border-gray-400 text-gray-400 rounded-md my-2 px-4 py-2 shadow-md cursor-pointer"
+                    >
+                      <span className="text-xl font-Lato font-bold text-gray-200">
+                        {board.title}
+                      </span>
+                      <p className="font-light">{board.description}</p>
+                    </button>
+                  ))
+              ) : (
+                <div className="flex flex-col justify-evenly items-center">
+                  <NoSearchResultsIllustration className="w-52 h-52" />
+                  <p className="text-3xl font-Montserrat">No boards found :(</p>
+                </div>
+              )
             ) : (
-              <p className="text-gray-200 mt-2">There are no boards created!</p>
+              <div className="flex items-center justify-center">
+                <FirstBoardIllustration className="w-48 h-96" />
+                <div>
+                  <p className="text-gray-200 text-4xl mt-2 font-Montserrat">
+                    There are no boards currently
+                  </p>
+                  <p className="text-gray-200 mt-2 text-lg">
+                    Please start by creating your first board!
+                  </p>
+                </div>
+              </div>
             )}
           </div>
-          <div className="w-full pt-4">
-            <div className="flex">
-              <button
-                onClick={() => {
-                  setOffset((offset) => {
-                    return offset - limit >= 0 ? offset - limit : offset;
-                  });
-                }}
-                className="flex gap-2 items-center px-3 text-sm border border-r-0 rounded-l-md bg-[#212128] text-gray-200 border-gray-400"
-              >
-                <LeftIcon className="h-5 w-5" />
-                <span className="font-semibold">Prev</span>
-              </button>
-              <div className="rounded-none border min-w-0 w-full text-sm p-2.5 bg-[#141418] border-gray-400 placeholder-gray-200 text-gray-200 focus:ring-gray-500 focus:border-gray-500">
-                <p className="text-gray-200 text-center">
-                  Showing <span className="font-medium">{offset + 1}</span> to{" "}
-                  <span className="font-medium">
-                    {offset + limit < count ? offset + limit : count}
-                  </span>{" "}
-                  of <span className="font-medium">{count}</span> results
-                </p>
+          {(!search || search === "") && boards.length > 0 && (
+            <div className="w-full pt-4">
+              <div className="flex">
+                <button
+                  onClick={() => {
+                    setOffset((offset) => {
+                      return offset - limit >= 0 ? offset - limit : offset;
+                    });
+                  }}
+                  className="flex gap-2 items-center px-3 text-sm border border-r-0 rounded-l-md bg-[#212128] text-gray-200 border-gray-400"
+                >
+                  <LeftIcon className="h-5 w-5" />
+                  <span className="font-semibold">Prev</span>
+                </button>
+                <div className="rounded-none border min-w-0 w-full text-sm p-2.5 bg-[#141418] border-gray-400 placeholder-gray-200 text-gray-200 focus:ring-gray-500 focus:border-gray-500">
+                  <p className="text-gray-200 text-center">
+                    Showing <span className="font-medium">{offset + 1}</span> to{" "}
+                    <span className="font-medium">
+                      {offset + limit < count ? offset + limit : count}
+                    </span>{" "}
+                    of <span className="font-medium">{count}</span> results
+                  </p>
+                </div>
+                <button
+                  onClick={() => {
+                    setOffset((offset) => {
+                      return offset + limit < count ? offset + limit : offset;
+                    });
+                  }}
+                  className="flex gap-2 items-center px-3 text-sm border border-l-0 rounded-r-md bg-[#212128] text-gray-200 border-gray-400"
+                >
+                  <p className="font-semibold">Next</p>
+                  <RightIcon className="h-5 w-5" />
+                </button>
               </div>
-              <button
-                onClick={() => {
-                  setOffset((offset) => {
-                    return offset + limit < count ? offset + limit : offset;
-                  });
-                }}
-                className="flex gap-2 items-center px-3 text-sm border border-l-0 rounded-r-md bg-[#212128] text-gray-200 border-gray-400"
-              >
-                <p className="font-semibold">Next</p>
-                <RightIcon className="h-5 w-5" />
-              </button>
             </div>
-          </div>
+          )}
         </div>
       )}
       <Modal open={newBoard} closeCB={() => setNewBoard(false)}>

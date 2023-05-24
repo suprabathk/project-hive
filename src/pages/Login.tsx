@@ -3,6 +3,7 @@ import { ProjectHiveLogo } from "../AppIcons/appIcons";
 import { Link, navigate } from "raviger";
 import { login } from "../utils/APIutils";
 import { LoadingIndiacator } from "../components/common/LoadingIndicator";
+import { TeamIllustration } from "../AppIcons/illustrations";
 
 export const Login = () => {
   const [username, setUsername] = useState("");
@@ -43,14 +44,11 @@ export const Login = () => {
             The next evolution of team productivity and collaboration is here.
           </p>
         </div>
-        <div className="bg-[#212128] rounded-lg py-2 px-3">
+        <div className="bg-[#212128] rounded-lg pt-4 pb-2 px-3">
+          <TeamIllustration className="" />
           <h4 className="font-semibold text-lg">
             Simplify work and get more done.
           </h4>
-          <p className="font-light text-md">
-            Plan, track, and manage any type of work with project management
-            that flexes to your team's needs.
-          </p>
         </div>
       </div>
       <div className="flex flex-col py-8 px-8 w-full justify-between">
