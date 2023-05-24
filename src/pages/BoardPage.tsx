@@ -19,6 +19,8 @@ import { navigate } from "raviger";
 import EditBoard from "./EditBoard";
 import EditStage from "./EditStage";
 import EditTask from "./EditTask";
+import DeleteBoard from "./DeleteBoard";
+import DeleteStage from "./DeleteStage";
 
 const fetchBoardData = (
   id: number,
@@ -45,9 +47,11 @@ export const BoardPage = ({ id }: { id: number }) => {
   const [newTask, setNewTask] = useState(false);
   const [stageID, setStageID] = useState(0);
   const [taskID, setTaskID] = useState(0);
-  const [editBoard, setEditBoard] = useState(false);
-  const [editStage, setEditStage] = useState(false);
-  const [editTask, setEditTask] = useState(false);
+  const [editBoardModal, setEditBoardModal] = useState(false);
+  const [editStageModal, setEditStageModal] = useState(false);
+  const [editTaskModal, setEditTaskModal] = useState(false);
+  const [deleteBoardModal, setDeleteBoardModal] = useState(false);
+  const [deleteStageModal, setDeleteStageModal] = useState(false);
 
   const showAddTaskModal = (stageID: number) => {
     setStageID(stageID);
@@ -56,12 +60,17 @@ export const BoardPage = ({ id }: { id: number }) => {
 
   const showEditStageModal = (stageID: number) => {
     setStageID(stageID);
-    setEditStage(true);
+    setEditStageModal(true);
+  };
+
+  const showDeletStageModal = (stageID: number) => {
+    setStageID(stageID);
+    setDeleteStageModal(true);
   };
 
   const showEditTaskModal = (taskID: number) => {
     setTaskID(taskID);
-    setEditTask(true);
+    setEditTaskModal(true);
   };
 
   const addTaskToGlobal = (task: Task) => {
@@ -74,9 +83,10 @@ export const BoardPage = ({ id }: { id: number }) => {
     navigate("/boards");
   };
 
-  const deleteCurrentStage = (stageID: number) => {
-    deleteStage(stageID);
+  const deleteCurrentStage = async () => {
+    await deleteStage(stageID);
     setStages((stages) => stages.filter((stage) => stage.id !== stageID));
+    setDeleteStageModal(false);
   };
 
   const updateBoardCB = (board: Board) => {
@@ -87,7 +97,7 @@ export const BoardPage = ({ id }: { id: number }) => {
         description: board.description,
       };
     });
-    setEditBoard(false);
+    setEditBoardModal(false);
   };
 
   const updateStageCB = (stage: Stage) => {
@@ -100,7 +110,7 @@ export const BoardPage = ({ id }: { id: number }) => {
         }
       });
     });
-    setEditStage(false);
+    setEditStageModal(false);
   };
 
   const updateTaskCB = (task: Task) => {
@@ -113,7 +123,7 @@ export const BoardPage = ({ id }: { id: number }) => {
         }
       });
     });
-    setEditTask(false);
+    setEditTaskModal(false);
   };
 
   const addStageCB = (stage: Stage) => {
@@ -132,14 +142,14 @@ export const BoardPage = ({ id }: { id: number }) => {
         </div>
         <div>
           <button
-            onClick={() => setEditBoard(true)}
+            onClick={() => setEditBoardModal(true)}
             className="transition-all flex gap-1 items-center text-blue-300 hover:text-blue-500"
           >
             <EditIcon className="w-4 h-4" />
             <span>Edit board</span>
           </button>
           <button
-            onClick={deleteCurrentBoard}
+            onClick={() => setDeleteBoardModal(true)}
             className="transition-all flex gap-1 items-center text-red-300 hover:text-red-500"
           >
             <DeleteIcon className="w-4 h-4" />
@@ -198,7 +208,7 @@ export const BoardPage = ({ id }: { id: number }) => {
                 showTaskModal={showEditTaskModal}
                 addTaskToStage={showAddTaskModal}
                 editStage={showEditStageModal}
-                deleteStage={deleteCurrentStage}
+                deleteStage={showDeletStageModal}
               />
             ))}
           </div>
@@ -216,16 +226,25 @@ export const BoardPage = ({ id }: { id: number }) => {
       <Modal open={newTask} closeCB={() => setNewTask(false)}>
         <CreateTask boardID={id} statusID={stageID} addTask={addTaskToGlobal} />
       </Modal>
-      <Modal open={editBoard} closeCB={() => setEditBoard(false)}>
+      <Modal open={editBoardModal} closeCB={() => setEditBoardModal(false)}>
         <EditBoard prevBoard={board} updateBoardCB={updateBoardCB} />
       </Modal>
-      <Modal open={editStage} closeCB={() => setEditStage(false)}>
+      <Modal open={deleteBoardModal} closeCB={() => setDeleteBoardModal(false)}>
+        <DeleteBoard deleteBoard={deleteCurrentBoard} />
+      </Modal>
+      <Modal open={deleteStageModal} closeCB={() => setDeleteStageModal(false)}>
+        <DeleteStage deleteStage={deleteCurrentStage} />
+      </Modal>
+      <Modal open={editStageModal} closeCB={() => setEditStageModal(false)}>
         <EditStage
           prevStage={stages.filter((stage) => stage.id === stageID)[0]}
           updateStageCB={updateStageCB}
         />
       </Modal>
-      <Modal open={editTask && taskID !== 0} closeCB={() => setEditTask(false)}>
+      <Modal
+        open={editTaskModal && taskID !== 0}
+        closeCB={() => setEditTaskModal(false)}
+      >
         <EditTask
           prevTask={tasks.filter((task) => task.id === taskID)[0]}
           editTask={updateTaskCB}
