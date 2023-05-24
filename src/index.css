@@ -7,3 +7,7 @@
 body {
   background-color: #141418;
 }
+
+:root {
+  color-scheme: dark;
+}

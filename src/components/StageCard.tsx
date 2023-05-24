@@ -10,12 +10,14 @@ export const StageCard = ({
   addTaskToStage,
   editStage,
   deleteStage,
+  showTaskModal,
 }: {
   stage: Stage;
   tasks: Task[];
   addTaskToStage: (stageID: number) => void;
   editStage: (stageID: number) => void;
   deleteStage: (stageID: number) => void;
+  showTaskModal: (taskID: number) => void;
 }) => {
   return (
     <div className="flex flex-col min-w-[30%] gap-2 bg-black border border-gray-400 rounded-lg py-4 px-2">
@@ -52,7 +54,12 @@ export const StageCard = ({
             <div {...provided.droppableProps} ref={provided.innerRef}>
               <div>
                 {tasks.map((task, index) => (
-                  <TaskCard key={task.id} task={task} index={index} />
+                  <TaskCard
+                    showTaskModal={showTaskModal}
+                    key={task.id}
+                    task={task}
+                    index={index}
+                  />
                 ))}
               </div>
               {provided.placeholder}

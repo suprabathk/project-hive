@@ -3,7 +3,15 @@ import { Task } from "../types/boardTypes";
 import { Draggable } from "react-beautiful-dnd";
 import { CalenderIcon, MoveIcon } from "../AppIcons/appIcons";
 
-export const TaskCard = ({ task, index }: { task: Task; index: number }) => {
+export const TaskCard = ({
+  task,
+  index,
+  showTaskModal,
+}: {
+  task: Task;
+  index: number;
+  showTaskModal: (taskID: number) => void;
+}) => {
   return (
     <Draggable draggableId={`${task.id}`} index={index}>
       {(provided) => (
@@ -18,12 +26,15 @@ export const TaskCard = ({ task, index }: { task: Task; index: number }) => {
               <h4 className="font-semibold text-2xl">{task.title}</h4>
               <p className="font-light">{task.description.description}</p>
             </div>
-            <button className="p-1">
+            <button
+              className="p-1"
+              onClick={() => task.id && showTaskModal(task.id)}
+            >
               <MoveIcon className="w-5 h-5" />
             </button>
           </div>
 
-          <div className="flex justify-between mt-4">
+          <div className="flex justify-between mt-4 mb-2">
             <div
               className={`rounded-full px-2 ${
                 task.description.priority === "Low" &&

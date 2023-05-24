@@ -18,6 +18,7 @@ import CreateTask from "./CreateTask";
 import { navigate } from "raviger";
 import EditBoard from "./EditBoard";
 import EditStage from "./EditStage";
+import EditTask from "./EditTask";
 
 const fetchBoardData = (
   id: number,
@@ -43,17 +44,24 @@ export const BoardPage = ({ id }: { id: number }) => {
   const [newStage, setNewStage] = useState(false);
   const [newTask, setNewTask] = useState(false);
   const [stageID, setStageID] = useState(0);
+  const [taskID, setTaskID] = useState(0);
   const [editBoard, setEditBoard] = useState(false);
   const [editStage, setEditStage] = useState(false);
+  const [editTask, setEditTask] = useState(false);
 
   const showAddTaskModal = (stageID: number) => {
     setStageID(stageID);
     setNewTask(true);
   };
 
-  const showEditTaskModal = (stageID: number) => {
+  const showEditStageModal = (stageID: number) => {
     setStageID(stageID);
     setEditStage(true);
+  };
+
+  const showEditTaskModal = (taskID: number) => {
+    setTaskID(taskID);
+    setEditTask(true);
   };
 
   const addTaskToGlobal = (task: Task) => {
@@ -93,6 +101,19 @@ export const BoardPage = ({ id }: { id: number }) => {
       });
     });
     setEditStage(false);
+  };
+
+  const updateTaskCB = (task: Task) => {
+    setTasks((tasks) => {
+      return tasks.map((prevTask) => {
+        if (prevTask.id === taskID) {
+          return task;
+        } else {
+          return prevTask;
+        }
+      });
+    });
+    setEditTask(false);
   };
 
   const addStageCB = (stage: Stage) => {
@@ -174,8 +195,9 @@ export const BoardPage = ({ id }: { id: number }) => {
                 tasks={tasks.filter(
                   (task) => task.status_object?.id === stage.id
                 )}
+                showTaskModal={showEditTaskModal}
                 addTaskToStage={showAddTaskModal}
-                editStage={showEditTaskModal}
+                editStage={showEditStageModal}
                 deleteStage={deleteCurrentStage}
               />
             ))}
@@ -201,6 +223,13 @@ export const BoardPage = ({ id }: { id: number }) => {
         <EditStage
           prevStage={stages.filter((stage) => stage.id === stageID)[0]}
           updateStageCB={updateStageCB}
+        />
+      </Modal>
+      <Modal open={editTask && taskID !== 0} closeCB={() => setEditTask(false)}>
+        <EditTask
+          prevTask={tasks.filter((task) => task.id === taskID)[0]}
+          editTask={updateTaskCB}
+          boardID={id}
         />
       </Modal>
     </div>

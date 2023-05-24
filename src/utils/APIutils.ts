@@ -112,6 +112,18 @@ export const getTasks = async (boardID: number) => {
   });
 };
 
+export const updateTask = (boardID: number, task: Task) => {
+  const stringifiedTask = {
+    ...task,
+    description: JSON.stringify(task.description),
+  };
+  return request(
+    `boards/${boardID}/tasks/${task.id}/`,
+    "PATCH",
+    stringifiedTask
+  );
+};
+
 export const moveTask = (taskID: number, boardID: number, statusID: number) => {
   return request(`boards/${boardID}/tasks/${taskID}/`, "PATCH", {
     status: statusID,
