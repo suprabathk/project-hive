@@ -1,7 +1,7 @@
 import React from "react";
 import { Task } from "../types/boardTypes";
 import { Draggable } from "react-beautiful-dnd";
-import { CalenderIcon, MoveIcon } from "../AppIcons/appIcons";
+import { CalenderIcon, MenuIcon } from "../AppIcons/appIcons";
 
 export const TaskCard = ({
   task,
@@ -30,7 +30,7 @@ export const TaskCard = ({
               className="p-1"
               onClick={() => task.id && showTaskModal(task.id)}
             >
-              <MoveIcon className="w-5 h-5" />
+              <MenuIcon className="w-5 h-5" />
             </button>
           </div>
 

@@ -10,7 +10,7 @@ import { ActiveLink } from "raviger";
 
 export const SideBar = () => {
   return (
-    <div className="bg-black py-4 px-2 mr-2 flex flex-col sm:min-w-[15%] justify-between">
+    <div className="bg-black py-4 px-2 mr-2 flex flex-col sm:min-w-[15%] justify-between h-screen fixed">
       <div className="flex gap-2 text-white items-center">
         <ProjectHiveLogo className="w-10 h-10 stroke-white" />
         <h2 className="font-semibold text-xl tracking-widest hidden sm:block">

@@ -182,7 +182,7 @@ export const EditIcon = ({ className }: { className: string }) => (
   </svg>
 );
 
-export const MoveIcon = ({ className }: { className: string }) => (
+export const MenuIcon = ({ className }: { className: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
