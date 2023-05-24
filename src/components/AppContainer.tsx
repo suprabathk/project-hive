@@ -1,14 +1,7 @@
 import React, { ReactNode } from "react";
-import { User } from "../types/userTypes";
 import { SideBar } from "./SideBar";
 
-export const AppContainer = ({
-  currentUser,
-  children,
-}: {
-  currentUser: User;
-  children: ReactNode;
-}) => {
+export const AppContainer = ({ children }: { children: ReactNode }) => {
   return (
     <div className="flex bg-black min-h-screen font-Lato">
       <SideBar />

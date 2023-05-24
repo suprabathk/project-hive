@@ -25,8 +25,8 @@ function App() {
   return (
     <div className="selection:text-white selection:bg-purple-400">
       {currentUser.username && currentUser.username?.length > 0 ? (
-        <AppContainer currentUser={currentUser}>
-          <AppRouter />
+        <AppContainer>
+          <AppRouter currentUser={currentUser} />
         </AppContainer>
       ) : (
         <SessionRouter />

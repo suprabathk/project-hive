@@ -4,10 +4,11 @@ import Page404 from "../pages/Page404";
 import { Boards } from "../pages/Boards";
 import { ToDo } from "../pages/ToDo";
 import { BoardPage } from "../pages/BoardPage";
+import { User } from "../types/userTypes";
 
-export default function AppRouter() {
+export default function AppRouter({ currentUser }: { currentUser: User }) {
   const routes = {
-    "/": () => <Home />,
+    "/": () => <Home currentUser={currentUser} />,
     "/login": () => <Redirect to="/" />,
     "/boards": () => <Boards />,
     "/boards/:id": ({ id }: { id: string }) => <BoardPage id={Number(id)} />,
