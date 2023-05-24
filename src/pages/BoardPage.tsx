@@ -21,6 +21,7 @@ import EditStage from "./EditStage";
 import EditTask from "./EditTask";
 import DeleteBoard from "./DeleteBoard";
 import DeleteStage from "./DeleteStage";
+import { FirstBoardIllustration } from "../AppIcons/illustrations";
 
 const fetchBoardData = (
   id: number,
@@ -159,11 +160,10 @@ export const BoardPage = ({ id }: { id: number }) => {
       </div>
 
       <div className="flex justify-between items-center my-4">
-        <div></div>
         <button
           type="submit"
           onClick={() => setNewStage(true)}
-          className="p-1.5 text-sm font-semibold h-fit border rounded-md text-center bg-[#212128] text-gray-400 border-gray-400 flex gap-1 items-center focus:outline-none"
+          className="p-1.5 text-sm  w-full font-semibold h-fit border rounded-md text-center bg-[#212128] text-gray-400 border-gray-400 flex gap-1 items-center justify-center focus:outline-none"
         >
           <PlusIcon className={"w-4 h-4"} />
           <span>Add new stage</span>
@@ -213,9 +213,16 @@ export const BoardPage = ({ id }: { id: number }) => {
             ))}
           </div>
         ) : (
-          <div>
-            <p>There are no stages.</p>
-            <p>Please start by adding a stage.</p>
+          <div className="flex items-center justify-center">
+            <FirstBoardIllustration className="w-48 h-96" />
+            <div>
+              <p className="text-gray-200 text-4xl mt-2 font-Montserrat">
+                There are no stages currently
+              </p>
+              <p className="text-gray-200 mt-2 text-lg">
+                Please start by creating your first stage!
+              </p>
+            </div>
           </div>
         )}
       </DragDropContext>

@@ -29,8 +29,8 @@ export default function CreateStage({
     if (Object.keys(validationErrors).length === 0) {
       try {
         setLoading(true);
-        await createStage(stage);
-        addStage(stage);
+        const { id } = await createStage(stage);
+        addStage({ ...stage, id: id });
         setLoading(false);
       } catch (error) {
         console.log(error);
