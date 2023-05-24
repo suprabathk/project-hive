@@ -134,3 +134,7 @@ export const moveTask = (taskID: number, boardID: number, statusID: number) => {
     status: statusID,
   });
 };
+
+export const deleteTask = (taskID: number, boardID: number) => {
+  return request(`boards/${boardID}/tasks/${taskID}/`, "DELETE");
+};

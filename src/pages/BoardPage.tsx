@@ -3,6 +3,7 @@ import { Board, Stage, Task } from "../types/boardTypes";
 import {
   deleteBoard,
   deleteStage,
+  deleteTask,
   getBoard,
   getStages,
   getTasks,
@@ -22,6 +23,7 @@ import EditTask from "./EditTask";
 import DeleteBoard from "./DeleteBoard";
 import DeleteStage from "./DeleteStage";
 import { FirstBoardIllustration } from "../AppIcons/illustrations";
+import DeleteTask from "./DeleteTask";
 
 const fetchBoardData = (
   id: number,
@@ -53,6 +55,7 @@ export const BoardPage = ({ id }: { id: number }) => {
   const [editTaskModal, setEditTaskModal] = useState(false);
   const [deleteBoardModal, setDeleteBoardModal] = useState(false);
   const [deleteStageModal, setDeleteStageModal] = useState(false);
+  const [deleteTaskModal, setDeleteTaskModal] = useState(false);
 
   const showAddTaskModal = (stageID: number) => {
     setStageID(stageID);
@@ -88,6 +91,12 @@ export const BoardPage = ({ id }: { id: number }) => {
     await deleteStage(stageID);
     setStages((stages) => stages.filter((stage) => stage.id !== stageID));
     setDeleteStageModal(false);
+  };
+
+  const deleteCurrentTask = async () => {
+    await deleteTask(taskID, id);
+    setTasks((tasks) => tasks.filter((task) => task.id !== taskID));
+    setDeleteTaskModal(false);
   };
 
   const updateBoardCB = (board: Board) => {
@@ -130,6 +139,12 @@ export const BoardPage = ({ id }: { id: number }) => {
   const addStageCB = (stage: Stage) => {
     setStages((stages) => [...stages, stage]);
     setNewStage(false);
+  };
+
+  const showDeleteTaskModal = async (stageID: number) => {
+    setStageID(stageID);
+    setEditTaskModal(false);
+    setDeleteTaskModal(true);
   };
 
   useEffect(() => fetchBoardData(id, setBoard, setStages, setTasks), [id]);
@@ -242,6 +257,9 @@ export const BoardPage = ({ id }: { id: number }) => {
       <Modal open={deleteStageModal} closeCB={() => setDeleteStageModal(false)}>
         <DeleteStage deleteStage={deleteCurrentStage} />
       </Modal>
+      <Modal open={deleteTaskModal} closeCB={() => setDeleteTaskModal(false)}>
+        <DeleteTask deleteTask={deleteCurrentTask} />
+      </Modal>
       <Modal open={editStageModal} closeCB={() => setEditStageModal(false)}>
         <EditStage
           prevStage={stages.filter((stage) => stage.id === stageID)[0]}
@@ -255,6 +273,7 @@ export const BoardPage = ({ id }: { id: number }) => {
         <EditTask
           prevTask={tasks.filter((task) => task.id === taskID)[0]}
           editTask={updateTaskCB}
+          deleteTask={showDeleteTaskModal}
           boardID={id}
         />
       </Modal>

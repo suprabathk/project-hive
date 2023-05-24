@@ -7,16 +7,16 @@ export default function EditTask({
   boardID,
   editTask,
   prevTask,
+  deleteTask,
 }: {
   boardID: number;
   editTask: (task: Task) => void;
+  deleteTask: (taskID: number) => void;
   prevTask: Task;
 }) {
   const [task, setTask] = useState<Task>(prevTask);
   const [errors, setErrors] = useState<Errors<Task>>({});
   const [loading, setLoading] = useState(false);
-
-  console.log(prevTask);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -166,6 +166,12 @@ export default function EditTask({
             className="px-3 py-1 text-md font-semibold border rounded-md w-full text-center bg-[#212128] text-gray-200 border-gray-400"
           >
             Save task
+          </button>
+          <button
+            onClick={() => task.id && deleteTask(task.id)}
+            className="px-3 mt-4 py-1 text-md font-semibold rounded-md w-full text-center bg-red-500 text-gray-200"
+          >
+            Delete task
           </button>
         </form>
       )}
