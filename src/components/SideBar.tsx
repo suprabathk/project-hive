@@ -10,10 +10,12 @@ import { ActiveLink } from "raviger";
 
 export const SideBar = () => {
   return (
-    <div className="bg-black py-4 px-2 mr-2 flex flex-col min-w-[15%] justify-between">
+    <div className="bg-black py-4 px-2 mr-2 flex flex-col sm:min-w-[15%] justify-between">
       <div className="flex gap-2 text-white items-center">
         <ProjectHiveLogo className="w-10 h-10 stroke-white" />
-        <h2 className="font-semibold text-xl tracking-widest">HIVE</h2>
+        <h2 className="font-semibold text-xl tracking-widest hidden sm:block">
+          HIVE
+        </h2>
       </div>
       <div className="flex flex-col gap-3">
         {[
@@ -36,7 +38,7 @@ export const SideBar = () => {
             exactActiveClass="bg-[#212128]"
           >
             <span>{link.icon}</span>
-            <span>{link.page}</span>
+            <span className="hidden sm:block">{link.page}</span>
           </ActiveLink>
         ))}
       </div>
@@ -50,7 +52,7 @@ export const SideBar = () => {
         }}
       >
         <PersonIcon className="w-4 h-4" />
-        <span>Sign out</span>
+        <span className="hidden sm:block">Sign out</span>
       </button>
     </div>
   );
