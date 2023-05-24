@@ -1,4 +1,5 @@
 import { Board, Stage, Task, unparsedTask } from "../types/boardTypes";
+import { PaginationParams } from "../types/common";
 
 const API_BASE_URL = "https://reactforall.onrender.com/api/";
 
@@ -14,7 +15,7 @@ export const request = async (
   if (method === "GET") {
     const requestParams = data
       ? `?${Object.entries(data)
-          .map((key, value) => `${key}=${value}`)
+          .map((entry) => `${entry[0]}=${entry[1]}`)
           .join("&")}`
       : "";
     url = `${API_BASE_URL}${endpoint}${requestParams}`;
@@ -55,8 +56,8 @@ export const me = () => {
   return request("users/me/", "GET", {});
 };
 
-export const getBoards = () => {
-  return request("boards/", "GET");
+export const getBoards = (pageParams?: PaginationParams) => {
+  return request("boards/", "GET", pageParams);
 };
 
 export const getBoard = (id: number) => {
