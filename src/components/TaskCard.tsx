@@ -3,6 +3,13 @@ import { Task } from "../types/boardTypes";
 import { Draggable } from "react-beautiful-dnd";
 import { CalenderIcon, MenuIcon } from "../AppIcons/appIcons";
 
+const isToday = (date: Date) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  date.setHours(0, 0, 0, 0);
+  return today.getTime() === date.getTime();
+};
+
 export const TaskCard = ({
   task,
   index,
@@ -51,8 +58,7 @@ export const TaskCard = ({
             </div>
             <div className="bg-purple-200 rounded-full text-purple-800 px-2 flex items-center gap-2">
               <CalenderIcon className="w-4 h-4" />
-              {new Date(task.description.dueDate).getDate() ===
-              new Date().getDate()
+              {isToday(new Date(task.description.dueDate))
                 ? "Today"
                 : task.description.dueDate}
             </div>

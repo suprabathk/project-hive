@@ -10,7 +10,12 @@ import {
   moveTask,
 } from "../utils/APIutils";
 import { LoadingIndiacator } from "../components/common/LoadingIndicator";
-import { DeleteIcon, EditIcon, PlusIcon } from "../AppIcons/appIcons";
+import {
+  DeleteIcon,
+  DownArrow,
+  EditIcon,
+  PlusIcon,
+} from "../AppIcons/appIcons";
 import Modal from "../components/common/Modal";
 import CreateStage from "./CreateStage";
 import { DragDropContext } from "react-beautiful-dnd";
@@ -55,6 +60,13 @@ const BoardPage = ({ id }: { id: number }) => {
   const [deleteBoardModal, setDeleteBoardModal] = useState(false);
   const [deleteStageModal, setDeleteStageModal] = useState(false);
   const [deleteTaskModal, setDeleteTaskModal] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
+  const [lowFilter, setLowFilter] = useState(false);
+  const [mediumFilter, setMediumFilter] = useState(false);
+  const [highFilter, setHighFilter] = useState(false);
+  const [overDueFilter, setOverDueFilter] = useState(false);
+  const [dueTodayFilter, setDueTodayFilter] = useState(false);
+  const [dueLaterFilter, setDueLaterFilter] = useState(false);
 
   const showAddTaskModal = (stageID: number) => {
     setStageID(stageID);
@@ -146,6 +158,27 @@ const BoardPage = ({ id }: { id: number }) => {
     setDeleteTaskModal(true);
   };
 
+  const isToday = (date: Date) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    date.setHours(0, 0, 0, 0);
+    return today.getTime() === date.getTime();
+  };
+
+  const isOverDue = (date: Date) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    date.setHours(0, 0, 0, 0);
+    return today.getTime() > date.getTime();
+  };
+
+  const isDueLater = (date: Date) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    date.setHours(0, 0, 0, 0);
+    return today.getTime() < date.getTime();
+  };
+
   useEffect(() => fetchBoardData(id, setBoard, setStages, setTasks), [id]);
 
   return board.id ? (
@@ -173,11 +206,94 @@ const BoardPage = ({ id }: { id: number }) => {
         </div>
       </div>
 
-      <div className="flex justify-between items-center my-4">
+      <div className="flex justify-between items-start my-4">
+        <div className="flex flex-col gap-2">
+          <button
+            onClick={() => setShowFilters((s) => !s)}
+            className="bg-[#212128] rounded-md items-center border-gray-400 border px-2 py-1 flex justify-between"
+          >
+            <span>Filter tasks</span>
+            <DownArrow
+              className={`w-4 transition-all h-4 ${
+                showFilters ? "rotate-180" : ""
+              }`}
+            />
+          </button>
+          <div
+            className={`flex flex-col gap-2 ${
+              showFilters ? "" : "invisible h-0"
+            }`}
+          >
+            <div className="flex gap-2">
+              <button
+                onClick={() => setLowFilter((s) => !s)}
+                className={`rounded-full px-2 ${
+                  lowFilter
+                    ? "bg-orange-800 text-orange-200"
+                    : "bg-orange-200 text-orange-800"
+                }`}
+              >
+                Low
+              </button>
+              <button
+                onClick={() => setMediumFilter((s) => !s)}
+                className={`rounded-full px-2 ${
+                  mediumFilter
+                    ? "bg-green-800 text-green-200"
+                    : "bg-green-200 text-green-800"
+                }`}
+              >
+                Medium
+              </button>
+              <button
+                onClick={() => setHighFilter((s) => !s)}
+                className={`rounded-full px-2 ${
+                  highFilter
+                    ? "bg-red-800 text-red-200"
+                    : "bg-red-200 text-red-800"
+                }`}
+              >
+                High
+              </button>
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setOverDueFilter((s) => !s)}
+                className={`rounded-full px-2 ${
+                  overDueFilter
+                    ? "bg-red-800 text-red-200"
+                    : "bg-red-200 text-red-800"
+                }`}
+              >
+                Over due
+              </button>
+              <button
+                onClick={() => setDueTodayFilter((s) => !s)}
+                className={`rounded-full px-2 ${
+                  dueTodayFilter
+                    ? "bg-orange-800 text-orange-200"
+                    : "bg-orange-200 text-orange-800"
+                }`}
+              >
+                Due today
+              </button>
+              <button
+                onClick={() => setDueLaterFilter((s) => !s)}
+                className={`rounded-full px-2 ${
+                  dueLaterFilter
+                    ? "bg-green-800 text-green-200"
+                    : "bg-green-200 text-green-800"
+                }`}
+              >
+                Due later
+              </button>
+            </div>
+          </div>
+        </div>
         <button
           type="submit"
           onClick={() => setNewStage(true)}
-          className="p-1.5 text-sm  w-full font-semibold h-fit border rounded-md text-center bg-[#212128] text-gray-400 border-gray-400 flex gap-1 items-center justify-center focus:outline-none"
+          className="p-1.5 text-sm font-semibold h-fit border rounded-md text-center bg-[#212128] text-gray-200 border-gray-400 flex gap-1 items-center justify-center focus:outline-none"
         >
           <PlusIcon className={"w-4 h-4"} />
           <span>Add new stage</span>
@@ -217,7 +333,22 @@ const BoardPage = ({ id }: { id: number }) => {
                 key={stage.id}
                 stage={stage}
                 tasks={tasks.filter(
-                  (task) => task.status_object?.id === stage.id
+                  (task) =>
+                    task.status_object?.id === stage.id &&
+                    (lowFilter || mediumFilter || highFilter
+                      ? (lowFilter && task.description.priority === "Low") ||
+                        (mediumFilter &&
+                          task.description.priority === "Medium") ||
+                        (highFilter && task.description.priority === "High")
+                      : true) &&
+                    (overDueFilter || dueTodayFilter || dueLaterFilter
+                      ? (overDueFilter &&
+                          isOverDue(new Date(task.description.dueDate))) ||
+                        (dueTodayFilter &&
+                          isToday(new Date(task.description.dueDate))) ||
+                        (dueLaterFilter &&
+                          isDueLater(new Date(task.description.dueDate)))
+                      : true)
                 )}
                 showTaskModal={showEditTaskModal}
                 addTaskToStage={showAddTaskModal}

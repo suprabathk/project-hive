@@ -20,7 +20,7 @@ export const StageCard = ({
   showTaskModal: (taskID: number) => void;
 }) => {
   return (
-    <div className="flex flex-col min-w-[33%] gap-2 bg-black border border-gray-400 rounded-lg py-4 px-2">
+    <div className="flex flex-col min-w-[33%] gap-2 bg-black border border-gray-700 rounded-lg py-4 px-2">
       <div className="flex justify-between items-center">
         <div>
           <h3 className="text-2xl font-bold">{stage.title}</h3>
