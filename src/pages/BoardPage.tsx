@@ -35,7 +35,6 @@ const fetchBoardData = (
   getBoard(id).then((data) => setBoard(data));
   getTasks(id).then((data) => {
     setTasks(data);
-    console.log(data);
   });
 };
 
