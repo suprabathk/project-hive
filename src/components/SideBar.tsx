@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  BoardIcon,
-  BookmarkIcon,
-  PersonIcon,
-  ProjectHiveLogo,
-} from "../AppIcons/appIcons";
+import { BoardIcon, PersonIcon, ProjectHiveLogo } from "../AppIcons/appIcons";
 import { ActiveLink } from "raviger";
 
 export const SideBar = () => {
@@ -22,11 +17,6 @@ export const SideBar = () => {
             page: "Boards",
             icon: <BoardIcon className={"w-4 h-4"} />,
             url: "/boards",
-          },
-          {
-            page: "To-Do",
-            icon: <BookmarkIcon className={"w-4 h-4"} />,
-            url: "/todos",
           },
         ].map((link) => (
           <ActiveLink
