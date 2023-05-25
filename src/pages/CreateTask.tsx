@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Errors, Task, validateTask } from "../types/boardTypes";
 import { createTask } from "../utils/APIutils";
-import { LoadingIndiacator } from "../components/common/LoadingIndicator";
+import { ProjectHiveLogo } from "../AppIcons/appIcons";
 
 export default function CreateTask({
   boardID,
@@ -55,121 +55,125 @@ export default function CreateTask({
       <h1 className="text-2xl my-2 text-gray-200 font-extrabold">
         Add new task
       </h1>
-      {loading ? (
-        <LoadingIndiacator />
-      ) : (
-        <form className="py-4" onSubmit={handleSubmit}>
-          <div className="w-full mb-6">
-            <div className="flex mt-2">
-              <span className="inline-flex items-center px-3 text-md font-semibold border border-r-0 rounded-l-md bg-[#212128] text-gray-200 border-gray-400">
-                Title
-              </span>
-              <input
-                type="text"
-                name="title"
-                id="title"
-                value={task.title}
-                onChange={(event) =>
-                  setTask((task) => {
-                    return {
-                      ...task,
-                      title: event.target.value,
-                    };
-                  })
-                }
-                className="rounded-none outline-none border block flex-1 min-w-0 w-full text-sm p-2.5 rounded-r-md bg-[#141418] border-gray-400 placeholder-gray-200 text-gray-200 focus:ring-0"
-              />
-            </div>
-            {errors.title && <p className="text-red-500">{errors.title}</p>}
+
+      <form className="py-4" onSubmit={handleSubmit}>
+        <div className="w-full mb-6">
+          <div className="flex mt-2">
+            <span className="inline-flex items-center px-3 text-md font-semibold border border-r-0 rounded-l-md bg-[#212128] text-gray-200 border-gray-400">
+              Title
+            </span>
+            <input
+              type="text"
+              name="title"
+              id="title"
+              value={task.title}
+              onChange={(event) =>
+                setTask((task) => {
+                  return {
+                    ...task,
+                    title: event.target.value,
+                  };
+                })
+              }
+              className="rounded-none outline-none border block flex-1 min-w-0 w-full text-sm p-2.5 rounded-r-md bg-[#141418] border-gray-400 placeholder-gray-200 text-gray-200 focus:ring-0"
+            />
           </div>
-          <div className="w-full mb-6">
-            <div className="flex flex-col mt-2">
-              <span className="inline-flex items-center px-3 text-md font-semibold border border-b-0 rounded-t-md bg-[#212128] text-gray-200 border-gray-400">
-                Description
-              </span>
-              <textarea
-                name="description"
-                id="description"
-                value={task.description.description}
-                onChange={(event) =>
-                  setTask((task) => {
-                    return {
-                      ...task,
-                      description: {
-                        ...task.description,
-                        description: event.target.value,
-                      },
-                    };
-                  })
-                }
-                className="rounded-none outline-none border block flex-1 min-w-0 w-full text-sm p-2.5 rounded-b-md bg-[#141418] border-gray-400 placeholder-gray-400 text-gray-200 focus:ring-0"
-              />
-            </div>
-            {errors.description && (
-              <p className="text-red-500">{errors.description}</p>
-            )}
-          </div>
-          <div className="w-full mb-6">
-            <div className="flex mt-2">
-              <span className="inline-flex items-center px-3 text-md font-semibold border border-r-0 rounded-l-md bg-[#212128] text-gray-200 border-gray-400">
-                Priority
-              </span>
-              <select
-                name="title"
-                id="title"
-                value={task.description.priority}
-                onChange={(event) =>
-                  setTask({
+          {errors.title && <p className="text-red-500">{errors.title}</p>}
+        </div>
+        <div className="w-full mb-6">
+          <div className="flex flex-col mt-2">
+            <span className="inline-flex items-center px-3 text-md font-semibold border border-b-0 rounded-t-md bg-[#212128] text-gray-200 border-gray-400">
+              Description
+            </span>
+            <textarea
+              name="description"
+              id="description"
+              value={task.description.description}
+              onChange={(event) =>
+                setTask((task) => {
+                  return {
                     ...task,
                     description: {
                       ...task.description,
-                      priority: event.target
-                        .value as Task["description"]["priority"],
+                      description: event.target.value,
                     },
-                  })
-                }
-                className="rounded-none outline-none border block flex-1 min-w-0 w-full text-sm p-2.5 rounded-r-md bg-[#141418] border-gray-400 placeholder-gray-200 text-gray-200 focus:ring-0"
-              >
-                <option value="High">High</option>
-                <option value="Medium">Medium</option>
-                <option value="Low">Low</option>
-              </select>
-            </div>
+                  };
+                })
+              }
+              className="rounded-none outline-none border block flex-1 min-w-0 w-full text-sm p-2.5 rounded-b-md bg-[#141418] border-gray-400 placeholder-gray-400 text-gray-200 focus:ring-0"
+            />
           </div>
-          <div className="w-full mb-6">
-            <div className="flex mt-2">
-              <span className="inline-flex items-center px-3 text-md font-semibold border border-r-0 rounded-l-md bg-[#212128] text-gray-200 border-gray-400">
-                Due date
-              </span>
-              <input
-                type="date"
-                name="date"
-                id="date"
-                required
-                value={task.description.dueDate}
-                onChange={(event) =>
-                  setTask((task) => {
-                    return {
-                      ...task,
-                      description: {
-                        ...task.description,
-                        dueDate: event.target.value,
-                      },
-                    };
-                  })
-                }
-                className="rounded-none outline-none border block flex-1 min-w-0 w-full text-sm p-2.5 rounded-r-md bg-[#141418] border-gray-400 placeholder-gray-200 text-gray-200 focus:ring-0"
-              />
-            </div>
+          {errors.description && (
+            <p className="text-red-500">{errors.description}</p>
+          )}
+        </div>
+        <div className="w-full mb-6">
+          <div className="flex mt-2">
+            <span className="inline-flex items-center px-3 text-md font-semibold border border-r-0 rounded-l-md bg-[#212128] text-gray-200 border-gray-400">
+              Priority
+            </span>
+            <select
+              name="title"
+              id="title"
+              value={task.description.priority}
+              onChange={(event) =>
+                setTask({
+                  ...task,
+                  description: {
+                    ...task.description,
+                    priority: event.target
+                      .value as Task["description"]["priority"],
+                  },
+                })
+              }
+              className="rounded-none outline-none border block flex-1 min-w-0 w-full text-sm p-2.5 rounded-r-md bg-[#141418] border-gray-400 placeholder-gray-200 text-gray-200 focus:ring-0"
+            >
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+            </select>
           </div>
-          <button
-            type="submit"
-            className="px-3 py-1 text-md font-semibold border rounded-md w-full text-center bg-[#212128] text-gray-200 border-gray-400"
-          >
-            Add new task
-          </button>
-        </form>
-      )}
+        </div>
+        <div className="w-full mb-6">
+          <div className="flex mt-2">
+            <span className="inline-flex items-center px-3 text-md font-semibold border border-r-0 rounded-l-md bg-[#212128] text-gray-200 border-gray-400">
+              Due date
+            </span>
+            <input
+              type="date"
+              name="date"
+              id="date"
+              required
+              value={task.description.dueDate}
+              onChange={(event) =>
+                setTask((task) => {
+                  return {
+                    ...task,
+                    description: {
+                      ...task.description,
+                      dueDate: event.target.value,
+                    },
+                  };
+                })
+              }
+              className="rounded-none outline-none border block flex-1 min-w-0 w-full text-sm p-2.5 rounded-r-md bg-[#141418] border-gray-400 placeholder-gray-200 text-gray-200 focus:ring-0"
+            />
+          </div>
+        </div>
+        <button
+          type="submit"
+          className="px-3 py-1 text-md font-semibold border rounded-md w-full text-center bg-[#212128] text-gray-200 border-gray-400"
+        >
+          {loading ? (
+            <div className="flex gap-2 items-center justify-center">
+              <ProjectHiveLogo className="w-5 h-5 stroke-white animate-spin ease-out" />
+              <span>Creating task...</span>
+            </div>
+          ) : (
+            "Create task"
+          )}
+        </button>
+      </form>
     </div>
   );
 }

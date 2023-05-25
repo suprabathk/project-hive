@@ -4,10 +4,10 @@ import { BackIcon } from "../AppIcons/appIcons";
 
 export default function Page404() {
   return (
-    <div className="flex items-center h-full text-gray-700 justify-center">
+    <div className="flex items-center h-full text-gray-200 justify-center">
       <div className="container flex flex-col items-center justify-center px-5 mx-auto my-8">
         <div className="max-w-md text-center">
-          <h2 className="mb-8 font-extrabold text-9xl text-blue-600">
+          <h2 className="mb-8 font-extrabold text-9xl text-violet-600">
             <span className="sr-only">Error</span>404
           </h2>
           <p className="text-2xl font-semibold md:text-3xl">
@@ -19,7 +19,7 @@ export default function Page404() {
           </p>
           <Link
             href="/"
-            className="flex gap-2 items-center justify-center font-semibold text-blue-600"
+            className="flex gap-2 items-center justify-center font-semibold text-violet-600"
           >
             <BackIcon className="w-4 h-4" />
             <span>Back to homepage</span>

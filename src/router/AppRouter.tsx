@@ -9,6 +9,7 @@ export default function AppRouter({ currentUser }: { currentUser: User }) {
   const routes = {
     "/": () => <Redirect to="/boards" />,
     "/signin": () => <Redirect to="/" />,
+    "/signup": () => <Redirect to="/" />,
     "/boards": () => <Boards currentUser={currentUser} />,
     "/boards/:id": ({ id }: { id: string }) => <BoardPage id={Number(id)} />,
     "/todos": () => <ToDo />,
