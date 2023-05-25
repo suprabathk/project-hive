@@ -7,8 +7,9 @@ import { TeamIllustration } from "../AppIcons/illustrations";
 
 export const SignUp = () => {
   const [username, setUsername] = useState("");
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [password1, setPassword1] = useState("");
+  const [password2, setPassword2] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -21,13 +22,23 @@ export const SignUp = () => {
         setLoading(false);
         return;
       }
-      if (password === "") {
+      if (password1 === "") {
         setError("Please set a password");
         setLoading(false);
         return;
       }
-      await signup(username, name, password);
-      const data = await login(username, password);
+      if (password2 === "") {
+        setError("Please re-enter the password");
+        setLoading(false);
+        return;
+      }
+      if (password1 !== password2) {
+        setError("Passwords do not match");
+        setLoading(false);
+        return;
+      }
+      await signup(username, password1, password2, email);
+      const data = await login(username, password1);
       if (!data) {
         setError("Invalid credentials");
         setLoading(false);
@@ -96,13 +107,13 @@ export const SignUp = () => {
             </div>
             <div className="w-full">
               <label htmlFor="name-field" className="font-semibold text-lg">
-                Name
+                Email
               </label>
               <input
-                type="text"
-                value={name}
+                type="email"
+                value={email}
                 id="name-field"
-                onChange={(event) => setName(event.target.value)}
+                onChange={(event) => setEmail(event.target.value)}
                 className="bg-[#141418] border border-purple-900 hover:border-purple-700 text-white focus:border-purple-700 w-full h-5 px-3 py-5 mb-2 hover:outline-none focus:outline-none focus:ring-purple-700 focus:ring-1 rounded-md"
               />
             </div>
@@ -115,9 +126,24 @@ export const SignUp = () => {
               </label>
               <input
                 type="password"
-                value={password}
+                value={password1}
                 id="password-field"
-                onChange={(event) => setPassword(event.target.value)}
+                onChange={(event) => setPassword1(event.target.value)}
+                className="bg-[#141418] border border-purple-900 hover:border-purple-700 text-white focus:border-purple-700 w-full h-5 px-3 py-5 mb-2 hover:outline-none focus:outline-none focus:ring-purple-700 focus:ring-1 rounded-md"
+              />
+            </div>
+            <div className="w-full">
+              <label
+                htmlFor="password-field"
+                className=" font-semibold text-lg"
+              >
+                Re-enter password
+              </label>
+              <input
+                type="password"
+                value={password2}
+                id="password-field"
+                onChange={(event) => setPassword2(event.target.value)}
                 className="bg-[#141418] border border-purple-900 hover:border-purple-700 text-white focus:border-purple-700 w-full h-5 px-3 py-5 mb-2 hover:outline-none focus:outline-none focus:ring-purple-700 focus:ring-1 rounded-md"
               />
             </div>

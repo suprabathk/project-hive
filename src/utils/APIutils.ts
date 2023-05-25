@@ -52,8 +52,18 @@ export const login = (username: string, password: string) => {
   return request("auth-token/", "POST", { username, password });
 };
 
-export const signup = (username: string, password: string, name: string) => {
-  return request("users/", "POST", { username, name, password });
+export const signup = (
+  username: string,
+  password1: string,
+  password2: string,
+  email: string
+) => {
+  return request("auth/registration/", "POST", {
+    username,
+    email,
+    password1,
+    password2,
+  });
 };
 
 export const me = () => {
