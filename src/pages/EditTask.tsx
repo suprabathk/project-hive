@@ -173,7 +173,10 @@ export default function EditTask({
           )}
         </button>
         <button
-          onClick={() => task.id && deleteTask(task.id)}
+          onClick={(event) => {
+            event.preventDefault();
+            task.id && deleteTask(task.id);
+          }}
           className="px-3 mt-4 py-1 text-md font-semibold rounded-md w-full text-center bg-red-500 text-gray-200"
         >
           Delete task
