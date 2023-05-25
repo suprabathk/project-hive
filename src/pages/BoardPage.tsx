@@ -36,8 +36,17 @@ const fetchBoardData = (
   setStages: (stages: Stage[]) => void,
   setTasks: (tasks: Task[]) => void
 ) => {
+  if (Number.isNaN(id)) {
+    navigate("/boards");
+    return;
+  }
   getStages().then((data) => setStages(data.results));
-  getBoard(id).then((data) => setBoard(data));
+  getBoard(id).then((data) => {
+    if (!data) {
+      navigate("/boards");
+      return;
+    } else setBoard(data);
+  });
   getTasks(id).then((data) => {
     setTasks(data);
   });
