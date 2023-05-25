@@ -32,6 +32,16 @@ export const SignUp = () => {
         setLoading(false);
         return;
       }
+      if (password1.length < 8) {
+        setError("Password should be of minimum 8 characters");
+        setLoading(false);
+        return;
+      }
+      if (password2 === "") {
+        setError("Please re-enter the password");
+        setLoading(false);
+        return;
+      }
       if (password1 !== password2) {
         setError("Passwords do not match");
         setLoading(false);
@@ -119,7 +129,7 @@ export const SignUp = () => {
             </div>
             <div className="w-full">
               <label
-                htmlFor="password-field"
+                htmlFor="password1-field"
                 className=" font-semibold text-lg"
               >
                 Password
@@ -127,14 +137,14 @@ export const SignUp = () => {
               <input
                 type="password"
                 value={password1}
-                id="password-field"
+                id="password1-field"
                 onChange={(event) => setPassword1(event.target.value)}
                 className="bg-[#141418] border border-purple-900 hover:border-purple-700 text-white focus:border-purple-700 w-full h-5 px-3 py-5 mb-2 hover:outline-none focus:outline-none focus:ring-purple-700 focus:ring-1 rounded-md"
               />
             </div>
             <div className="w-full">
               <label
-                htmlFor="password-field"
+                htmlFor="password2-field"
                 className=" font-semibold text-lg"
               >
                 Re-enter password
@@ -142,7 +152,7 @@ export const SignUp = () => {
               <input
                 type="password"
                 value={password2}
-                id="password-field"
+                id="password2-field"
                 onChange={(event) => setPassword2(event.target.value)}
                 className="bg-[#141418] border border-purple-900 hover:border-purple-700 text-white focus:border-purple-700 w-full h-5 px-3 py-5 mb-2 hover:outline-none focus:outline-none focus:ring-purple-700 focus:ring-1 rounded-md"
               />
