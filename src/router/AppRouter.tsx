@@ -1,19 +1,38 @@
 import { Redirect, useRoutes } from "raviger";
-import Page404 from "../pages/Page404";
-import { Boards } from "../pages/Boards";
-import { ToDo } from "../pages/ToDo";
-import { BoardPage } from "../pages/BoardPage";
 import { User } from "../types/userTypes";
+import { Suspense, lazy } from "react";
+import { LoadingIndiacator } from "../components/common/LoadingIndicator";
+
+const Boards = lazy(() => import("../pages/Boards"));
+const BoardPage = lazy(() => import("../pages/BoardPage"));
+const ToDo = lazy(() => import("../pages/ToDo"));
+const Page404 = lazy(() => import("../pages/Page404"));
 
 export default function AppRouter({ currentUser }: { currentUser: User }) {
   const routes = {
     "/": () => <Redirect to="/boards" />,
     "/signin": () => <Redirect to="/" />,
     "/signup": () => <Redirect to="/" />,
-    "/boards": () => <Boards currentUser={currentUser} />,
-    "/boards/:id": ({ id }: { id: string }) => <BoardPage id={Number(id)} />,
-    "/todos": () => <ToDo />,
+    "/boards": () => (
+      <Suspense fallback={<LoadingIndiacator />}>
+        <Boards currentUser={currentUser} />
+      </Suspense>
+    ),
+    "/boards/:id": ({ id }: { id: string }) => (
+      <Suspense fallback={<LoadingIndiacator />}>
+        <BoardPage id={Number(id)} />
+      </Suspense>
+    ),
+    "/todos": () => (
+      <Suspense fallback={<LoadingIndiacator />}>
+        <ToDo />
+      </Suspense>
+    ),
   };
-  let routeResult = useRoutes(routes) || <Page404 />;
+  let routeResult = useRoutes(routes) || (
+    <Suspense fallback={<LoadingIndiacator />}>
+      <Page404 />;
+    </Suspense>
+  );
   return routeResult;
 }

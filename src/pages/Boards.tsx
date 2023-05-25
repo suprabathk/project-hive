@@ -32,7 +32,7 @@ const fetchBoards = (
   });
 };
 
-export const Boards = ({ currentUser }: { currentUser: User }) => {
+const Boards = ({ currentUser }: { currentUser: User }) => {
   const [{ search }, setQuery] = useQueryParams();
   const [searchString, setSearchString] = useState("");
   const [boards, setBoards] = useState<Board[]>([]);
@@ -202,3 +202,5 @@ export const Boards = ({ currentUser }: { currentUser: User }) => {
     </div>
   );
 };
+
+export default Boards;

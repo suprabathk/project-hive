@@ -39,7 +39,7 @@ const fetchBoardData = (
   });
 };
 
-export const BoardPage = ({ id }: { id: number }) => {
+const BoardPage = ({ id }: { id: number }) => {
   const [board, setBoard] = useState<Board>({
     title: "",
     description: "",
@@ -282,3 +282,5 @@ export const BoardPage = ({ id }: { id: number }) => {
     <LoadingIndiacator />
   );
 };
+
+export default BoardPage;

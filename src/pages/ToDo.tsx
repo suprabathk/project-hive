@@ -1,5 +1,7 @@
 import React from "react";
 
-export const ToDo = () => {
+const ToDo = () => {
   return <div>ToDo</div>;
 };
+
+export default ToDo;
