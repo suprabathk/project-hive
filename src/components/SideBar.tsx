@@ -2,7 +2,6 @@ import React from "react";
 import {
   BoardIcon,
   BookmarkIcon,
-  HomeIcon,
   PersonIcon,
   ProjectHiveLogo,
 } from "../AppIcons/appIcons";
